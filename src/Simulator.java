@@ -17,7 +17,13 @@ public class Simulator
     // The probability that a fox will be created in any given grid position.
     private static final double TREX_CREATION_PROBABILITY = 0.02;
     // The probability that a rabbit will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.08;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.022;
+    // The probability that a fox will be created in any given grid position.
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.08;
+    // The probability that a rabbit will be created in any given position.
+    private static final double DODO_CREATION_PROBABILITY = 0.013;
+    private static final double RAPTOR_CREATION_PROBABILITY = 0.24;
+
 
     // The current state of the field.
     private Field field;
@@ -139,13 +145,22 @@ public class Simulator
                     Location location = new Location(row, col);
                     Trex trex = new Trex(true, location);
                     field.placeAnimal(trex, location);
-                }
-                else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
+                }else if(rand.nextDouble() <= ALLOSAURUS_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Allosaurus allosaurus = new Allosaurus(true, location);
+                    field.placeAnimal(allosaurus, location);
+                }                else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Ankylosaurus ankylosaurus = new Ankylosaurus(true, location);
                     field.placeAnimal(ankylosaurus, location);
-                   // Rabbit rabbit = new Rabbit(true, location);
-                    ///field.placeAnimal(rabbit, location);
+                }else if(rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Dodo dodo = new Dodo(true, location);
+                    field.placeAnimal(dodo, location);
+                }else if(rand.nextDouble() <= RAPTOR_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Raptor raptor = new Raptor(true, location);
+                    field.placeAnimal(raptor, location);
                 }
                 // else leave the location empty.
             }

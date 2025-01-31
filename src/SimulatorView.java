@@ -47,8 +47,11 @@ public class SimulatorView extends JFrame
         colors = new LinkedHashMap<>();
         setColor(Trex.class, Color.blue);
         setColor(Ankylosaurus.class, Color.orange);
+        setColor(Allosaurus.class, Color.black);
+        setColor(Dodo.class, Color.red);
+        setColor(Raptor.class, Color.green);
 
-        setTitle("Fox and Rabbit Simulation");
+        setTitle("Dinosaur simulation");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         day = new JLabel(DAY_PREFIX, JLabel.CENTER);

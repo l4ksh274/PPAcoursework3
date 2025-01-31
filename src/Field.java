@@ -118,21 +118,18 @@ public class Field
      */
     public void fieldStats()
     {
-        int numFoxes = 0, numRabbits = 0;
+        HashMap<Class<? extends Animal>, Integer> counts = new HashMap<>();
         for(Animal anAnimal : field.values()) {
-            if(anAnimal instanceof Trex trex) {
-                if(trex.isAlive()) {
-                    numFoxes++;
-                }
-            }
-            else if(anAnimal instanceof Ankylosaurus ankylosaurus) {
-                if(ankylosaurus.isAlive()) {
-                    numRabbits++;
-                }
+            if (!counts.containsKey(anAnimal.getClass())) {
+                counts.put(anAnimal.getClass(), 1);
+            }else{
+                counts.put(anAnimal.getClass(), counts.get(anAnimal.getClass()) + 1);
             }
         }
-        System.out.println("Ankylosaurus: " + numRabbits +
-                           " Trex: " + numFoxes);
+        for (Map.Entry<Class<? extends Animal>, Integer> entry : counts.entrySet()) {
+            System.out.print(entry.getKey().getName() + " : " + entry.getValue()  + " ");
+        }
+        System.out.println();
     }
 
     /**
