@@ -44,13 +44,20 @@ public class Rabbit extends Animal
     }
     
     /**
+     * Rabbits act at each step
+     */
+    public void act(Field currentField, Field nextFieldState)
+    {
+        flee(currentField, nextFieldState);
+    }
+
+    /**
      * This is what the rabbit does most of the time - it runs 
      * around. Sometimes it will breed or die of old age.
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
      */
-    public void act(Field currentField, Field nextFieldState)
-    {
+    public void flee(Field currentField, Field nextFieldState) {
         incrementAge();
         if(isAlive()) {
             List<Location> freeLocations = 

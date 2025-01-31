@@ -9,7 +9,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Fox extends Animal
+public class Fox extends Predator
 {
     // Characteristics shared by all foxes (class variables).
     // The age at which a fox can start to breed.
@@ -51,7 +51,15 @@ public class Fox extends Animal
         }
         foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
     }
-    
+
+    /**
+     * Foxes act at each step
+     */
+    public void act(Field currentField, Field nextFieldState)
+    {
+        hunt(currentField, nextFieldState);
+    }
+
     /**
      * This is what the fox does most of the time: it hunts for
      * rabbits. In the process, it might breed, die of hunger,
@@ -59,8 +67,7 @@ public class Fox extends Animal
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
-    public void act(Field currentField, Field nextFieldState)
-    {
+    public void hunt(Field currentField, Field nextFieldState) {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
@@ -86,8 +93,6 @@ public class Fox extends Animal
             }
         }
     }
-
-
 
     @Override
     public String toString() {
