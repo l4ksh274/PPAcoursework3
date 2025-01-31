@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -8,12 +9,12 @@ import java.util.Random;
  */
 public abstract class Animal
 {
-    // TODO Unlikely that this class needs updates for the sleeping functionality.
-
     // Whether the animal is alive or not.
     private boolean alive;
     // The animal's position.
     private Location location;
+    // The animal's age
+    protected int age;
 
     // The base hour that the animal will go to sleep at.
     protected int sleepHour;
@@ -98,6 +99,73 @@ public abstract class Animal
     {
         this.location = location;
     }
+
+    /**
+     * Increase the age.
+     * This could result in the animal's death.
+     */
+    protected void incrementAge()
+    {
+        age++;
+        if(age > getMaxAge()) {
+            setDead();
+        }
+    }
+
+    /**
+     * Check whether this trex is to give birth at this step.
+     * New births will be made into free adjacent locations.
+     * @param freeLocations The locations that are free in the current field.
+     */
+    protected void giveBirth(Field nextFieldState, List<Location> freeLocations)
+    {
+        // New trexes are born into adjacent locations.
+        // Get a list of adjacent free locations.
+        int births = breed();
+        if(births > 0) {
+            for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
+                Location loc = freeLocations.remove(0);
+                Animal young = createOffspring(loc);
+                nextFieldState.placeAnimal(young, loc);
+            }
+        }
+    }
+
+    /**
+     * Generate a number representing the number of births,
+     * if it can breed.
+     * @return The number of births (may be zero).
+     */
+    protected int breed()
+    {
+        int births;
+        if(canBreed() && rand.nextDouble() <= getBreedingProbability()) {
+            births = rand.nextInt(getMaxLitterSize()) + 1;
+        }
+        else {
+            births = 0;
+        }
+        return births;
+    }
+
+    /**
+     * A rabbit can breed if it has reached the breeding age.
+     * @return true if the rabbit can breed, false otherwise.
+     */
+    protected boolean canBreed()
+    {
+        return age >= getBreedingAge();
+    }
+
+    protected abstract int getMaxAge();
+
+    protected abstract double getBreedingProbability();
+
+    protected abstract int getMaxLitterSize();
+
+    protected abstract int getBreedingAge();
+
+    protected abstract Animal createOffspring(Location loc);
 
     /**
      * Gets the base sleep hour of the animal.

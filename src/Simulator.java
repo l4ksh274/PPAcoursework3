@@ -15,9 +15,9 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.02;
+    private static final double TREX_CREATION_PROBABILITY = 0.02;
     // The probability that a rabbit will be created in any given position.
-    private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.08;
 
     // The current state of the field.
     private Field field;
@@ -135,13 +135,15 @@ public class Simulator
         field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
+                if(rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Fox fox = new Fox(true, location);
-                    field.placeAnimal(fox, location);
+                    Trex trex = new Trex(true, location);
+                    field.placeAnimal(trex, location);
                 }
-                else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
+                else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
+                    Ankylosaurus ankylosaurus = new Ankylosaurus(true, location);
+                    field.placeAnimal(ankylosaurus, location);
                    // Rabbit rabbit = new Rabbit(true, location);
                     ///field.placeAnimal(rabbit, location);
                 }
