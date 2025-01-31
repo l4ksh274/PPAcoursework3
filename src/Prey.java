@@ -13,12 +13,15 @@ public abstract class Prey extends Animal
     }
     
     /**
-     * This is what the rabbit does most of the time - it runs 
+     * This is what the prey does most of the time - it runs
      * around. Sometimes it will breed or die of old age.
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
+     * @param day The day of the new state.
+     * @param hour The hour of the day of the new state.
      */
-    public void act(Field currentField, Field nextFieldState)
+    @Override
+    public void act(Field currentField, Field nextFieldState, int day, int hour)
     {
         incrementAge();
         if(isAlive()) {

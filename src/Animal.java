@@ -54,7 +54,7 @@ public abstract class Animal
         this.wakeHour = wakeHour;
         this.timeOffset = timeOffset;
     }
-    
+
     /**
      * Act.
      * @param currentField The current state of the field.

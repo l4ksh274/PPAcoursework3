@@ -15,15 +15,18 @@ public abstract class Predator extends Animal
     public Predator(Location location) {
         super(location);
     }
-    
+
     /**
      * This is what the trex does most of the time: it hunts for
      * ankylosaurus'. In the process, it might breed, die of hunger,
      * or die of old age.
-     * @param currentField The field currently occupied.
-     * @param nextFieldState The updated field.
+     * @param currentField The current state of the field.
+     * @param nextFieldState The new state being built.
+     * @param day The day of the new state.
+     * @param hour The hour of the day of the new state.
      */
-    public void act(Field currentField, Field nextFieldState)
+    @Override
+    public void act(Field currentField, Field nextFieldState, int day, int hour)
     {
         incrementAge();
         incrementHunger();
