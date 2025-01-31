@@ -97,6 +97,8 @@ public class SimulatorView extends JFrame
      * Show the current status of the field.
      * @param step Which iteration step it is.
      * @param field The field whose status is to be displayed.
+     * @param day The day of the field
+     * @param hour The hour of the day of the field
      */
     public void showStatus(int step, Field field, int day, int hour)
     {

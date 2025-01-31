@@ -104,7 +104,7 @@ public class Simulator
 
         List<Animal> animals = field.getAnimals();
         for (Animal anAnimal : animals) {
-            anAnimal.act(field, nextFieldState);
+            anAnimal.act(field, nextFieldState, day, hour);
         }
         
         // Replace the old state with the new one.
