@@ -16,6 +16,11 @@ public abstract class Predator extends Animal
         super(location);
     }
 
+
+    public Predator(Location location, int sleepHour, int wakeHour, int timeOffset){
+        super(location, sleepHour, wakeHour, timeOffset);
+    }
+
     /**
      * This is what the trex does most of the time: it hunts for
      * ankylosaurus'. In the process, it might breed, die of hunger,

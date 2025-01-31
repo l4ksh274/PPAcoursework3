@@ -11,6 +11,10 @@ public abstract class Prey extends Animal
     public Prey(Location location) {
         super(location);
     }
+
+    public Prey(Location location, int sleepHour, int wakeHour, int timeOffset) {
+        super(location, sleepHour, wakeHour, timeOffset);
+    }
     
     /**
      * This is what the prey does most of the time - it runs
