@@ -142,8 +142,8 @@ public class Simulator
                 }
                 else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Rabbit rabbit = new Rabbit(true, location);
-                    field.placeAnimal(rabbit, location);
+                   // Rabbit rabbit = new Rabbit(true, location);
+                    ///field.placeAnimal(rabbit, location);
                 }
                 // else leave the location empty.
             }
