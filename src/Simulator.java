@@ -156,4 +156,12 @@ public class Simulator
             // ignore
         }
     }
+
+    // TODO So intellij can run the program remove before submitting.
+
+    public static void main(String[] args) {
+        Simulator simulator = new Simulator();
+        simulator.runLongSimulation();
+    }
+
 }
