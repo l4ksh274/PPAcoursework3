@@ -23,8 +23,12 @@ public class SimulatorView extends JFrame
 
     private final String STEP_PREFIX = "Step: ";
     private final String POPULATION_PREFIX = "Population: ";
+    private final String DAY_PREFIX = "Day: ";
+    private final String HOUR_PREFIX = "Hour: ";
     private final JLabel stepLabel;
     private final JLabel population;
+    private final JLabel day;
+    private final JLabel hour;
     private final FieldView fieldView;
     
     // A map for storing colors for participants in the simulation
@@ -47,7 +51,9 @@ public class SimulatorView extends JFrame
         setTitle("Fox and Rabbit Simulation");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
-        
+        day = new JLabel(DAY_PREFIX, JLabel.CENTER);
+        hour = new JLabel(HOUR_PREFIX, JLabel.CENTER);
+
         setLocation(100, 50);
         
         fieldView = new FieldView(height, width);
@@ -56,6 +62,8 @@ public class SimulatorView extends JFrame
         contents.add(stepLabel, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
+        contents.add(day, BorderLayout.WEST);
+        contents.add(hour, BorderLayout.EAST);
         pack();
         setVisible(true);
     }
@@ -90,7 +98,7 @@ public class SimulatorView extends JFrame
      * @param step Which iteration step it is.
      * @param field The field whose status is to be displayed.
      */
-    public void showStatus(int step, Field field)
+    public void showStatus(int step, Field field, int day, int hour)
     {
         if(!isVisible()) {
             setVisible(true);
@@ -116,6 +124,8 @@ public class SimulatorView extends JFrame
         stats.countFinished();
 
         population.setText(POPULATION_PREFIX + stats.getPopulationDetails(field));
+        this.day.setText(DAY_PREFIX + day);
+        this.hour.setText(HOUR_PREFIX + hour);
         fieldView.repaint();
     }
 

@@ -25,6 +25,8 @@ public class Simulator
     private int step;
     // A graphical view of the simulation.
     private final SimulatorView view;
+    // Keeps track of the time
+    private int day, hour;
 
     /**
      * Construct a simulation field with default size.
@@ -50,6 +52,9 @@ public class Simulator
         
         field = new Field(depth, width);
         view = new SimulatorView(depth, width);
+
+        day = 1;
+        hour = 0;
 
         reset();
     }
@@ -80,10 +85,19 @@ public class Simulator
     /**
      * Run the simulation from its current state for a single step.
      * Iterate over the whole field updating the state of each fox and rabbit.
+     * Increment time according to the step where each step is an hour.
      */
     public void simulateOneStep()
     {
         step++;
+
+        if (hour + 1 == 24){
+            hour = 0;
+            day++;
+        }else{
+            hour++;
+        }
+
         // Use a separate Field to store the starting state of
         // the next step.
         Field nextFieldState = new Field(field.getDepth(), field.getWidth());
@@ -97,7 +111,7 @@ public class Simulator
         field = nextFieldState;
 
         reportStats();
-        view.showStatus(step, field);
+        view.showStatus(step, field, day, hour);
     }
         
     /**
@@ -107,7 +121,9 @@ public class Simulator
     {
         step = 0;
         populate();
-        view.showStatus(step, field);
+        day = 1;
+        hour = 0;
+        view.showStatus(step, field, day, hour);
     }
     
     /**
