@@ -1,4 +1,3 @@
-
 /**
  * Write a description of class Raptor here.
  *
@@ -17,7 +16,7 @@ public class Raptor extends Predator
     // The maximum number of births
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single dodo
-    private static final int DODO_FOOD_VALUE = 4;
+    private static final int DODO_FOOD_VALUE = 7;
     
     public Raptor(boolean randomAge, Location location){
         super(location);

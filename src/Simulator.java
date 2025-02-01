@@ -15,14 +15,14 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
-    private static final double TREX_CREATION_PROBABILITY = 0.02;
+    private static final double TREX_CREATION_PROBABILITY = 0.3;
     // The probability that a rabbit will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.022;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3;
     // The probability that a fox will be created in any given grid position.
-    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.08;
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.4;
     // The probability that a rabbit will be created in any given position.
-    private static final double DODO_CREATION_PROBABILITY = 0.013;
-    private static final double RAPTOR_CREATION_PROBABILITY = 0.24;
+    private static final double DODO_CREATION_PROBABILITY = 0.02;
+    private static final double RAPTOR_CREATION_PROBABILITY = 0.5;
 
 
     // The current state of the field.
