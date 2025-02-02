@@ -8,11 +8,11 @@ public class Allosaurus extends Predator
 {
     // Characteristics shared by all allosaurus'
     // The age at which an allosaurus can start to breed.
-    private static final int BREEDING_AGE = 15;
+    private static final int BREEDING_AGE = 13;
     // The age of which an allosaurus can live
     private static final int MAX_AGE = 160;
     // The likelihood of an allosaurus breeding 
-    private static final double BREEDING_PROBABILITY = 0.06;
+    private static final double BREEDING_PROBABILITY = 0.18;
     // The maximum number of births
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single ankylosaurus. In effect, this is the

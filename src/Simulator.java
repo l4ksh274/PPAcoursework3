@@ -14,10 +14,17 @@ public class Simulator
     private static final int DEFAULT_WIDTH = 120;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
-    // The probability that a fox will be created in any given grid position.
-    private static final double TREX_CREATION_PROBABILITY = 0.02;
-    // The probability that a rabbit will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.08;    
+    // The probability that a Trex will be created in any given grid position.
+    private static final double TREX_CREATION_PROBABILITY = 0.3;
+    // The probability that an Ankylosaurus will be created in any given position.
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3;
+    // The probability that an allosaurus will be created in any given grid position.
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.4;
+    // The probability that a dodo will be created in any given position.
+    private static final double DODO_CREATION_PROBABILITY = 0.02;
+    // The probability that a raptor will be created in any given position.
+    private static final double RAPTOR_CREATION_PROBABILITY = 0.5;
+
 
     // The current state of the field.
     private Field field;
@@ -25,6 +32,8 @@ public class Simulator
     private int step;
     // A graphical view of the simulation.
     private final SimulatorView view;
+    // Keeps track of the time
+    private int day, hour;
 
     /**
      * Construct a simulation field with default size.
@@ -50,6 +59,9 @@ public class Simulator
         
         field = new Field(depth, width);
         view = new SimulatorView(depth, width);
+
+        day = 1;
+        hour = 0;
 
         reset();
     }
@@ -80,24 +92,33 @@ public class Simulator
     /**
      * Run the simulation from its current state for a single step.
      * Iterate over the whole field updating the state of each fox and rabbit.
+     * Increment time according to the step where each step is an hour.
      */
     public void simulateOneStep()
     {
         step++;
+
+        if (hour + 1 == 24){
+            hour = 0;
+            day++;
+        }else{
+            hour++;
+        }
+
         // Use a separate Field to store the starting state of
         // the next step.
         Field nextFieldState = new Field(field.getDepth(), field.getWidth());
 
         List<Animal> animals = field.getAnimals();
         for (Animal anAnimal : animals) {
-            anAnimal.act(field, nextFieldState);
+            anAnimal.act(field, nextFieldState, day, hour);
         }
         
         // Replace the old state with the new one.
         field = nextFieldState;
 
         reportStats();
-        view.showStatus(step, field);
+        view.showStatus(step, field, day, hour);
     }
         
     /**
@@ -107,7 +128,9 @@ public class Simulator
     {
         step = 0;
         populate();
-        view.showStatus(step, field);
+        day = 1;
+        hour = 0;
+        view.showStatus(step, field, day, hour);
     }
     
     /**
@@ -123,11 +146,22 @@ public class Simulator
                     Location location = new Location(row, col);
                     Trex trex = new Trex(true, location);
                     field.placeAnimal(trex, location);
-                }
-                else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
+                }else if(rand.nextDouble() <= ALLOSAURUS_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Allosaurus allosaurus = new Allosaurus(true, location);
+                    field.placeAnimal(allosaurus, location);
+                }                else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Ankylosaurus ankylosaurus = new Ankylosaurus(true, location);
                     field.placeAnimal(ankylosaurus, location);
+                }else if(rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Dodo dodo = new Dodo(true, location);
+                    field.placeAnimal(dodo, location);
+                }else if(rand.nextDouble() <= RAPTOR_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Raptor raptor = new Raptor(true, location);
+                    field.placeAnimal(raptor, location);
                 }
                 // else leave the location empty.
             }
@@ -156,4 +190,12 @@ public class Simulator
             // ignore
         }
     }
+
+    // TODO So intellij can run the program remove before submitting.
+
+    public static void main(String[] args) {
+        Simulator simulator = new Simulator();
+        simulator.runLongSimulation();
+    }
+
 }

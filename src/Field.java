@@ -118,21 +118,18 @@ public class Field
      */
     public void fieldStats()
     {
-        int numFoxes = 0, numRabbits = 0;
+        HashMap<Class<? extends Animal>, Integer> counts = new HashMap<>();
         for(Animal anAnimal : field.values()) {
-            if(anAnimal instanceof Trex trex) {
-                if(trex.isAlive()) {
-                    numFoxes++;
-                }
-            }
-            else if(anAnimal instanceof Ankylosaurus ankylosaurus) {
-                if(ankylosaurus.isAlive()) {
-                    numRabbits++;
-                }
+            if (!counts.containsKey(anAnimal.getClass())) {
+                counts.put(anAnimal.getClass(), 1);
+            }else{
+                counts.put(anAnimal.getClass(), counts.get(anAnimal.getClass()) + 1);
             }
         }
-        System.out.println("Ankylosaurus: " + numRabbits +
-                           " Trex: " + numFoxes);
+        for (Map.Entry<Class<? extends Animal>, Integer> entry : counts.entrySet()) {
+            System.out.print(entry.getKey().getName() + " : " + entry.getValue()  + " ");
+        }
+        System.out.println();
     }
 
     /**
@@ -144,28 +141,43 @@ public class Field
     }
 
     /**
-     * Return whether there is at least one rabbit and one fox in the field.
-     * @return true if there is at least one rabbit and one fox in the field.
+     * Return whether there is at least one pair of predator-preys on the field.
+     * @return true if there is at least one pair of predator-preys on the field.
      */
     public boolean isViable()
     {
-        boolean rabbitFound = false;
-        boolean foxFound = false;
-        Iterator<Animal> it = animals.iterator();
-        while(it.hasNext() && ! (rabbitFound && foxFound)) {
-            Animal anAnimal = it.next();
-            if(anAnimal instanceof Ankylosaurus ankylosaurus) {
-                if(ankylosaurus.isAlive()) {
-                    rabbitFound = true;
-                }
-            }
-            else if(anAnimal instanceof Trex fox) {
-                if(fox.isAlive()) {
-                    foxFound = true;
-                }
+        /*
+        Predator -> prey pairs
+
+        Trex -> Ankylosaurus
+        Allosaurus -> Ankylosaurus
+        Raptor -> Dodo
+         */
+
+        // Keeps track of the animals classes that are still on the field. A value of 1 indicates it exists.
+        HashSet<Class<? extends Animal>> classExists = new HashSet<>();
+
+
+
+        for (Animal animal : animals){
+
+            classExists.add(animal.getClass());
+
+            // Checks if a pair exists by querying the hashmap and seeing in a non-null value is returned for both animals.
+            boolean trexAnkylosaurusPair = classExists.contains(Trex.class) && classExists.contains(Ankylosaurus.class);
+            boolean allosaurusAnkylosaurusPair = classExists.contains(Allosaurus.class) && classExists.contains(Ankylosaurus.class);
+            boolean raptorDodoPair = classExists.contains(Raptor.class) && classExists.contains(Dodo.class);
+
+            // If any of the 3 existing pairs exists, then true
+            if (trexAnkylosaurusPair || allosaurusAnkylosaurusPair || raptorDodoPair) {
+                return true;
             }
         }
-        return rabbitFound && foxFound;
+
+        // Default case where no pairs are found.
+
+        return false;
+
     }
     
     /**

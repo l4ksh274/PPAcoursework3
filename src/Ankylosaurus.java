@@ -15,7 +15,7 @@ public class Ankylosaurus extends Prey
     // The likelihood of a ankylosaurus breeding.
     private static final double BREEDING_PROBABILITY = 0.12;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
+    private static final int MAX_LITTER_SIZE = 6;
     
     // Individual characteristics (instance fields).
     
