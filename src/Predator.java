@@ -11,6 +11,7 @@ public abstract class Predator extends Animal
 {   
     // The predator's food level, which is increased by eating their prey.
     protected int foodLevel;
+    private static final double SLEEP_CHANGE_PROBABILITY = 0.05;
 
     public Predator(Location location) {
         super(location);
@@ -34,34 +35,40 @@ public abstract class Predator extends Animal
     public void act(Field currentField, Field nextFieldState, int day, int hour)
     {
         incrementAge();
-        incrementHunger();
-        if(isAlive()) {
-            List<Location> freeLocations =
-                    nextFieldState.getFreeAdjacentLocations(getLocation());
-            if(! freeLocations.isEmpty()) {
-                giveBirth(nextFieldState, freeLocations);
+        updateSleeping(hour, SLEEP_CHANGE_PROBABILITY);
+        if (!sleeping){
+            incrementHunger();
+            if(isAlive()) {
+                List<Location> freeLocations =
+                        nextFieldState.getFreeAdjacentLocations(getLocation());
+                if(! freeLocations.isEmpty()) {
+                    giveBirth(nextFieldState, freeLocations);
+                }
+                // Move towards a source of food if found.
+                Location nextLocation = findFood(currentField);
+                if(nextLocation == null && ! freeLocations.isEmpty()) {
+                    // No food found - try to move to a free location.
+                    nextLocation = freeLocations.remove(0);
+                }
+                // See if it was possible to move.
+                if(nextLocation != null) {
+                    setLocation(nextLocation);
+                    nextFieldState.placeAnimal(this, nextLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
-            // Move towards a source of food if found.
-            Location nextLocation = findFood(currentField);
-            if(nextLocation == null && ! freeLocations.isEmpty()) {
-                // No food found - try to move to a free location.
-                nextLocation = freeLocations.remove(0);
-            }
-            // See if it was possible to move.
-            if(nextLocation != null) {
-                setLocation(nextLocation);
-                nextFieldState.placeAnimal(this, nextLocation);
-            }
-            else {
-                // Overcrowding.
-                setDead();
-            }
+        }else{
+            nextFieldState.placeAnimal(this, getLocation());
         }
+
     }
     
     @Override
     public String toString() {
-        return "Trex{" +
+        return getClass().getName() + "{" +
                 "age=" + age +
                 ", alive=" + isAlive() +
                 ", location=" + getLocation() +
