@@ -8,12 +8,12 @@ import java.util.List;
  */
 public abstract class Prey extends Animal
 {   
-    public Prey(Location location) {
-        super(location);
+    public Prey(Location location, Field field) {
+        super(location, field);
     }
 
-    public Prey(Location location, int sleepHour, int wakeHour, int timeOffset) {
-        super(location, sleepHour, wakeHour, timeOffset);
+    public Prey(Location location, Field field, int sleepHour, int wakeHour, int timeOffset) {
+        super(location, field, sleepHour, wakeHour, timeOffset);
     }
     
     /**

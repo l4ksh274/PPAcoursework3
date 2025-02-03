@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Random;
+import java.util.Iterator;
 
 /**
  * Common elements of foxes and rabbits.
@@ -15,6 +16,10 @@ public abstract class Animal
     private Location location;
     // The animal's age
     protected int age;
+    // The animal's gender
+    protected Gender gender;
+
+    protected Field field;
 
     // The base hour that the animal will go to sleep at.
     protected int sleepHour;
@@ -31,10 +36,12 @@ public abstract class Animal
      * Constructor for objects of class Animal. Randomly assigns sleeping parameters.
      * @param location The animal's location.
      */
-    public Animal(Location location)
+    public Animal(Location location, Field field)
     {
         this.alive = true;
         this.location = location;
+        this.gender = Gender.randomGender();
+        this.field = field;
         this.sleepHour = rand.nextInt(24);
         this.wakeHour = rand.nextInt(24);
         this.timeOffset = rand.nextInt(5);
@@ -47,9 +54,9 @@ public abstract class Animal
      * @param wakeHour The animal's waking hour
      * @param timeOffset The animal's deviation from their sleeping parameters
      */
-    public Animal(Location location, int sleepHour, int wakeHour, int timeOffset)
+    public Animal(Location location, Field field, int sleepHour, int wakeHour, int timeOffset)
     {
-        this(location);
+        this(location, field);
         this.sleepHour = sleepHour;
         this.wakeHour = wakeHour;
         this.timeOffset = timeOffset;
@@ -121,6 +128,10 @@ public abstract class Animal
     {
         // New trexes are born into adjacent locations.
         // Get a list of adjacent free locations.
+        if (!foundMate(freeLocations)) {
+            return;
+        }
+
         int births = breed();
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
@@ -157,6 +168,37 @@ public abstract class Animal
         return age >= getBreedingAge();
     }
 
+    /**
+     * Checks all freeLocations to see if there are any animals of the opposite gender and removes animals of the same gender
+     * @return
+     */
+    protected boolean foundMate(List<Location> freeLocations) {
+        Iterator<Location> iterator = freeLocations.iterator();
+
+        while (iterator.hasNext()){
+            Location location = iterator.next();
+            Animal animal = field.getAnimalAt(location);
+
+            if (animal == null) {
+                iterator.remove();
+                continue;
+            }
+
+            if (gender == Gender.MALE && animal.getGender() == Gender.FEMALE) {
+                continue;
+            } 
+            else {
+                iterator.remove();
+            }
+        }
+        if (freeLocations.isEmpty()) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     protected abstract int getMaxAge();
 
     protected abstract double getBreedingProbability();
@@ -166,6 +208,10 @@ public abstract class Animal
     protected abstract int getBreedingAge();
 
     protected abstract Animal createOffspring(Location loc);
+
+    protected Gender getGender() {
+        return gender;
+    }
 
     /**
      * Gets the base sleep hour of the animal.

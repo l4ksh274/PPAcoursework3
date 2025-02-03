@@ -12,13 +12,13 @@ public abstract class Predator extends Animal
     // The predator's food level, which is increased by eating their prey.
     protected int foodLevel;
 
-    public Predator(Location location) {
-        super(location);
+    public Predator(Location location, Field field) {
+        super(location, field);
     }
 
 
-    public Predator(Location location, int sleepHour, int wakeHour, int timeOffset){
-        super(location, sleepHour, wakeHour, timeOffset);
+    public Predator(Location location, Field field, int sleepHour, int wakeHour, int timeOffset){
+        super(location, field, sleepHour, wakeHour, timeOffset);
     }
 
     /**

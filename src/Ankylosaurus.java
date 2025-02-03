@@ -9,13 +9,13 @@ public class Ankylosaurus extends Prey
 {
     // Characteristics shared by all ankylosaurus' (class variables).
     // The age at which a ankylosaurus can start to breed.
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 8;
     // The age to which a ankylosaurus can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a ankylosaurus breeding.
-    private static final double BREEDING_PROBABILITY = 0.12;
+    private static final double BREEDING_PROBABILITY = 0.75;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 6;
+    private static final int MAX_LITTER_SIZE = 5;
     
     // Individual characteristics (instance fields).
     
@@ -26,9 +26,9 @@ public class Ankylosaurus extends Prey
      * @param randomAge If true, the ankylosaurus will have a random age.
      * @param location The location within the field.
      */
-    public Ankylosaurus(boolean randomAge, Location location)
+    public Ankylosaurus(boolean randomAge, Location location, Field field)
     {
-        super(location);
+        super(location, field);
         age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -57,6 +57,6 @@ public class Ankylosaurus extends Prey
     
     @Override
     protected Animal createOffspring(Location loc) {
-        return new Ankylosaurus(false, loc);
+        return new Ankylosaurus(false, loc, field);
     }
 }

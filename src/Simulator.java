@@ -144,23 +144,23 @@ public class Simulator
             for(int col = 0; col < field.getWidth(); col++) {
                 if(rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Trex trex = new Trex(true, location);
+                    Trex trex = new Trex(true, location, field);
                     field.placeAnimal(trex, location);
                 }else if(rand.nextDouble() <= ALLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Allosaurus allosaurus = new Allosaurus(true, location);
+                    Allosaurus allosaurus = new Allosaurus(true, location, field);
                     field.placeAnimal(allosaurus, location);
-                }                else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
+                }else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Ankylosaurus ankylosaurus = new Ankylosaurus(true, location);
+                    Ankylosaurus ankylosaurus = new Ankylosaurus(true, location, field);
                     field.placeAnimal(ankylosaurus, location);
                 }else if(rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Dodo dodo = new Dodo(true, location);
+                    Dodo dodo = new Dodo(true, location, field);
                     field.placeAnimal(dodo, location);
                 }else if(rand.nextDouble() <= RAPTOR_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Raptor raptor = new Raptor(true, location);
+                    Raptor raptor = new Raptor(true, location, field);
                     field.placeAnimal(raptor, location);
                 }
                 // else leave the location empty.
