@@ -57,7 +57,7 @@ public class Allosaurus extends Predator
     
     @Override
     protected Animal createOffspring(Location loc) {
-        return new Ankylosaurus(false, loc);
+        return new Allosaurus(false, loc);
     }
     
     @Override
