@@ -34,9 +34,10 @@ public abstract class Animal
     public Animal(Location location)
     {
         this.alive = true;
+        this.sleeping = false;
         this.location = location;
-        this.sleepHour = rand.nextInt(24);
-        this.wakeHour = rand.nextInt(24);
+        this.sleepHour = rand.nextInt(6) + 18;
+        this.wakeHour = rand.nextInt(18);
         this.timeOffset = rand.nextInt(5);
     }
 
@@ -203,6 +204,7 @@ public abstract class Animal
      */
 
     protected void updateSleeping(int hour, double SLEEP_CHANGE_PROBABILITY){
+
         // If the sleep parameters should change
         boolean sleepDeviation = rand.nextDouble(1) < SLEEP_CHANGE_PROBABILITY;
 

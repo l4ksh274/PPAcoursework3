@@ -6,10 +6,12 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public abstract class Prey extends Animal
-{   
+public abstract class Prey extends Animal {
+
+    private static final double SLEEP_CHANGE_PROBABILITY = 0.9;
+
     public Prey(Location location) {
-        super(location);
+        super(location, 20, 4, 1);
     }
 
     public Prey(Location location, int sleepHour, int wakeHour, int timeOffset) {
@@ -28,28 +30,35 @@ public abstract class Prey extends Animal
     public void act(Field currentField, Field nextFieldState, int day, int hour)
     {
         incrementAge();
-        if(isAlive()) {
-            List<Location> freeLocations = 
-                nextFieldState.getFreeAdjacentLocations(getLocation());
-            if(!freeLocations.isEmpty()) {
-                giveBirth(nextFieldState, freeLocations);
+        updateSleeping(hour, SLEEP_CHANGE_PROBABILITY);
+
+        if(!sleeping){
+            if(isAlive()) {
+                List<Location> freeLocations =
+                        nextFieldState.getFreeAdjacentLocations(getLocation());
+                if(!freeLocations.isEmpty()) {
+                    giveBirth(nextFieldState, freeLocations);
+                }
+                // Try to move into a free location.
+                if(! freeLocations.isEmpty()) {
+                    Location nextLocation = freeLocations.get(0);
+                    setLocation(nextLocation);
+                    nextFieldState.placeAnimal(this, nextLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
-            // Try to move into a free location.
-            if(! freeLocations.isEmpty()) {
-                Location nextLocation = freeLocations.get(0);
-                setLocation(nextLocation);
-                nextFieldState.placeAnimal(this, nextLocation);
-            }
-            else {
-                // Overcrowding.
-                setDead();
-            }
+        }else{
+            nextFieldState.placeAnimal(this, getLocation());
         }
+
     }
 
     @Override
     public String toString() {
-        return "Rabbit{" +
+        return getClass() + "{" +
                 "age=" + age +
                 ", alive=" + isAlive() +
                 ", location=" + getLocation() +
