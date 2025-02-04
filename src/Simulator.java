@@ -24,6 +24,10 @@ public class Simulator
     private static final double DODO_CREATION_PROBABILITY = 0.02;
     // The probability that a raptor will be created in any given position.
     private static final double RAPTOR_CREATION_PROBABILITY = 0.5;
+    // The probability that a berry will be created in a given position.
+    private static final double BERRY_CREATION_PROBABILITY = 0.05;
+    // The probability that a conifer will be created in a given position.
+    private static final double CONIFER_CREATION_PROBABILITY = 0.05;
 
 
     // The current state of the field.
@@ -85,7 +89,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps && field.isViable(); n++) {
             simulateOneStep();
-            delay(50);         // adjust this to change execution speed
+            delay(1000);         // adjust this to change execution speed (usually 50)
         }
     }
     
@@ -109,9 +113,9 @@ public class Simulator
         // the next step.
         Field nextFieldState = new Field(field.getDepth(), field.getWidth());
 
-        List<Animal> animals = field.getAnimals();
-        for (Animal anAnimal : animals) {
-            anAnimal.act(field, nextFieldState, day, hour);
+        List<Living> beings = field.getBeings();
+        for (Living aBeing : beings) {
+            aBeing.act(field, nextFieldState, day, hour);
         }
         
         // Replace the old state with the new one.
@@ -145,24 +149,33 @@ public class Simulator
                 if(rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Trex trex = new Trex(true, location, field);
-                    field.placeAnimal(trex, location);
+                    field.placeLiving(trex, location);
                 }else if(rand.nextDouble() <= ALLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Allosaurus allosaurus = new Allosaurus(true, location, field);
-                    field.placeAnimal(allosaurus, location);
+                    field.placeLiving(allosaurus, location);
                 }else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Ankylosaurus ankylosaurus = new Ankylosaurus(true, location, field);
-                    field.placeAnimal(ankylosaurus, location);
+                    field.placeLiving(ankylosaurus, location);
                 }else if(rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Dodo dodo = new Dodo(true, location, field);
-                    field.placeAnimal(dodo, location);
+                    field.placeLiving(dodo, location);
                 }else if(rand.nextDouble() <= RAPTOR_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Raptor raptor = new Raptor(true, location, field);
-                    field.placeAnimal(raptor, location);
+                    field.placeLiving(raptor, location);
+                }else if(rand.nextDouble() <= BERRY_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Berry berry = new Berry(location, field, null);
+                    field.placeLiving(berry, location);
+                }else if(rand.nextDouble() <= CONIFER_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Conifer conifer = new Conifer(location, field, null);
+                    field.placeLiving(conifer, location);
                 }
+
                 // else leave the location empty.
             }
         }

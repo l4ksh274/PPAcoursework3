@@ -61,4 +61,6 @@ public abstract class Living {
     }
 
     protected abstract int getMaxAge();
+
+    protected abstract void act(Field currentField, Field nextFieldState, int day, int hour);
 }

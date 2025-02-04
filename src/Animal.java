@@ -83,7 +83,7 @@ public abstract class Animal extends Living
             // See if it was possible to move.
             if(nextLocation != null) {
                 setLocation(nextLocation);
-                nextFieldState.placeAnimal(this, nextLocation);
+                nextFieldState.placeLiving(this, nextLocation);
             }
             else {
                 // Overcrowding.
@@ -146,7 +146,7 @@ public abstract class Animal extends Living
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 Animal young = createOffspring(loc);
-                nextFieldState.placeAnimal(young, loc);
+                nextFieldState.placeLiving(young, loc);
             }
         }
     }
@@ -186,18 +186,22 @@ public abstract class Animal extends Living
 
         while (iterator.hasNext()){
             Location location = iterator.next();
-            Animal animal = field.getAnimalAt(location);
+            Living being = field.getAnimalAt(location);
 
-            if (animal == null) {
+            if (being == null) {
                 iterator.remove();
                 continue;
             }
 
-            if (gender == Gender.MALE && animal.getGender() == Gender.FEMALE) {
-                continue;
-            } 
-            else {
-                iterator.remove();
+            if (being instanceof Animal) {
+                Animal animal = (Animal) being;
+                
+                if (gender == Gender.MALE && animal.getGender() == Gender.FEMALE) {
+                    continue;
+                } 
+                else {
+                    iterator.remove();
+                }
             }
         }
         if (freeLocations.isEmpty()) {

@@ -15,9 +15,9 @@ public class Field
     // The dimensions of the field.
     private final int depth, width;
     // Animals mapped by location.
-    private final Map<Location, Animal> field = new HashMap<>();
+    private final Map<Location, Living> field = new HashMap<>();
     // The animals.
-    private final List<Animal> animals = new ArrayList<>();
+    private final List<Living> beings = new ArrayList<>();
 
     /**
      * Represent a field of the given dimensions.
@@ -37,15 +37,15 @@ public class Field
      * @param anAnimal The animal to be placed.
      * @param location Where to place the animal.
      */
-    public void placeAnimal(Animal anAnimal, Location location)
+    public void placeLiving(Living aBeing, Location location)
     {
         assert location != null;
         Object other = field.get(location);
         if(other != null) {
-            animals.remove(other);
+            beings.remove(other);
         }
-        field.put(location, anAnimal);
-        animals.add(anAnimal);
+        field.put(location, aBeing);
+        beings.add(aBeing);
     }
     
     /**
@@ -53,7 +53,7 @@ public class Field
      * @param location Where in the field.
      * @return The animal at the given location, or null if there is none.
      */
-    public Animal getAnimalAt(Location location)
+    public Living getAnimalAt(Location location)
     {
         return field.get(location);
     }
@@ -68,11 +68,11 @@ public class Field
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = getAdjacentLocations(location);
         for(Location next : adjacent) {
-            Animal anAnimal = field.get(next);
-            if(anAnimal == null) {
+            Living aBeing = field.get(next);
+            if(aBeing == null) {
                 free.add(next);
             }
-            else if(!anAnimal.isAlive()) {
+            else if(!aBeing.isAlive()) {
                 free.add(next);
             }
         }
@@ -118,15 +118,15 @@ public class Field
      */
     public void fieldStats()
     {
-        HashMap<Class<? extends Animal>, Integer> counts = new HashMap<>();
-        for(Animal anAnimal : field.values()) {
-            if (!counts.containsKey(anAnimal.getClass())) {
-                counts.put(anAnimal.getClass(), 1);
+        HashMap<Class<? extends Living>, Integer> counts = new HashMap<>();
+        for(Living aBeing : field.values()) {
+            if (!counts.containsKey(aBeing.getClass())) {
+                counts.put(aBeing.getClass(), 1);
             }else{
-                counts.put(anAnimal.getClass(), counts.get(anAnimal.getClass()) + 1);
+                counts.put(aBeing.getClass(), counts.get(aBeing.getClass()) + 1);
             }
         }
-        for (Map.Entry<Class<? extends Animal>, Integer> entry : counts.entrySet()) {
+        for (Map.Entry<Class<? extends Living>, Integer> entry : counts.entrySet()) {
             System.out.print(entry.getKey().getName() + " : " + entry.getValue()  + " ");
         }
         System.out.println();
@@ -155,13 +155,13 @@ public class Field
          */
 
         // Keeps track of the animals classes that are still on the field. A value of 1 indicates it exists.
-        HashSet<Class<? extends Animal>> classExists = new HashSet<>();
+        HashSet<Class<? extends Living>> classExists = new HashSet<>();
 
 
 
-        for (Animal animal : animals){
+        for (Living beings : beings){
 
-            classExists.add(animal.getClass());
+            classExists.add(beings.getClass());
 
             // Checks if a pair exists by querying the hashmap and seeing in a non-null value is returned for both animals.
             boolean trexAnkylosaurusPair = classExists.contains(Trex.class) && classExists.contains(Ankylosaurus.class);
@@ -183,9 +183,9 @@ public class Field
     /**
      * Get the list of animals.
      */
-    public List<Animal> getAnimals()
+    public List<Living> getBeings()
     {
-        return animals;
+        return beings;
     }
 
     /**
