@@ -76,12 +76,10 @@ public abstract class Animal extends Living
             if(! freeLocations.isEmpty()) {
                 giveBirth(nextFieldState, freeLocations);
             }
+            
             // Move towards a source of food if found.
-            Location nextLocation = findPrey(currentField);
-            if(nextLocation == null && ! freeLocations.isEmpty()) {
-                // No food found - try to move to a free location.
-                nextLocation = freeLocations.remove(0);
-            }
+            Location nextLocation = findFood(currentField, freeLocations);
+
             // See if it was possible to move.
             if(nextLocation != null) {
                 setLocation(nextLocation);
@@ -225,6 +223,8 @@ public abstract class Animal extends Living
     protected Gender getGender() {
         return gender;
     }
+    
+    protected abstract Location findFood(Field currentField, List<Location> freeLocations);
 
     /**
      * Gets the base sleep hour of the animal.
