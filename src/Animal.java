@@ -8,14 +8,9 @@ import java.util.Iterator;
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
  */
-public abstract class Animal
+public abstract class Animal extends Living
 {
-    // Whether the animal is alive or not.
-    private boolean alive;
-    // The animal's position.
-    private Location location;
-    // The animal's age
-    protected int age;
+    
     // The animal's gender
     protected Gender gender;
 
@@ -38,8 +33,7 @@ public abstract class Animal
      */
     public Animal(Location location, Field field)
     {
-        this.alive = true;
-        this.location = location;
+        super(location, field);
         this.gender = Gender.randomGender();
         this.field = field;
         this.sleepHour = rand.nextInt(24);
@@ -70,54 +64,6 @@ public abstract class Animal
      * @param hour The hour of the day of the new state.
      */
     abstract public void act(Field currentField, Field nextFieldState, int day, int hour);
-    
-    /**
-     * Check whether the animal is alive or not.
-     * @return true if the animal is still alive.
-     */
-    public boolean isAlive()
-    {
-        return alive;
-    }
-
-    /**
-     * Indicate that the animal is no longer alive.
-     */
-    protected void setDead()
-    {
-        alive = false;
-        location = null;
-    }
-    
-    /**
-     * Return the animal's location.
-     * @return The animal's location.
-     */
-    public Location getLocation()
-    {
-        return location;
-    }
-    
-    /**
-     * Set the animal's location.
-     * @param location The new location.
-     */
-    protected void setLocation(Location location)
-    {
-        this.location = location;
-    }
-
-    /**
-     * Increase the age.
-     * This could result in the animal's death.
-     */
-    protected void incrementAge()
-    {
-        age++;
-        if(age > getMaxAge()) {
-            setDead();
-        }
-    }
 
     /**
      * Check whether this trex is to give birth at this step.
@@ -198,8 +144,6 @@ public abstract class Animal
             return true;
         }
     }
-
-    protected abstract int getMaxAge();
 
     protected abstract double getBreedingProbability();
 
