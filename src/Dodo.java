@@ -15,6 +15,9 @@ public class Dodo extends Prey
     private static final double BREEDING_PROBABILITY = 0.85;
     // The maximum number of births
     private static final int MAX_LITTER_SIZE = 6;
+    // The food value of a single Conifer. In effect, this is the
+    // number of steps a trex can go before it has to eat again.
+    private static final int CONIFER_FOOD_VALUE = 25;
     
     /**
      * 
@@ -25,11 +28,17 @@ public class Dodo extends Prey
         if (randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
+        foodLevel = rand.nextInt(CONIFER_FOOD_VALUE);
     }
     
     @Override
     protected int getMaxAge(){
         return MAX_AGE;
+    }
+
+    @Override
+    protected int getFoodValue() {
+        return CONIFER_FOOD_VALUE;
     }
     
     @Override 
@@ -50,5 +59,15 @@ public class Dodo extends Prey
     @Override
     protected Animal createOffspring(Location loc) {
         return new Dodo(false, loc, field);
+    }
+
+    @Override
+    protected boolean isFood(Living living) {
+        if (living instanceof Conifer) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

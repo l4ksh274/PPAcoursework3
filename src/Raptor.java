@@ -60,8 +60,8 @@ public class Raptor extends Predator
     }
     
     @Override
-    protected boolean isPrey(Animal animal) {
-        if(animal instanceof Dodo) {
+    protected boolean isFood(Living living) {
+        if(living instanceof Dodo) {
             return true;
         }
         else {

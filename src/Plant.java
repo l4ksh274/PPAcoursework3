@@ -7,6 +7,11 @@ public abstract class Plant extends Living {
         super(location, field);
     }
 
+    public void act() {
+        incrementAge();
+        grow();
+    }
+
     public void grow() {
         height *= growthRate;
     }

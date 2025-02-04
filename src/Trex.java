@@ -72,8 +72,8 @@ public class Trex extends Predator
     }
     
     @Override
-    protected boolean isPrey(Animal animal) {
-        if(animal instanceof Ankylosaurus) {
+    protected boolean isFood(Living living) {
+        if(living instanceof Ankylosaurus) {
             return true;
         }
         else {

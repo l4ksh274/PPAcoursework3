@@ -10,7 +10,8 @@ import java.util.Iterator;
  */
 public abstract class Animal extends Living
 {
-    
+    // The predator's food level, which is increased by eating their prey.
+    protected int foodLevel;
     // The animal's gender
     protected Gender gender;
 
@@ -57,13 +58,77 @@ public abstract class Animal extends Living
     }
 
     /**
-     * Act.
+     * This is what the trex does most of the time: it hunts for
+     * ankylosaurus'. In the process, it might breed, die of hunger,
+     * or die of old age.
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
      * @param day The day of the new state.
      * @param hour The hour of the day of the new state.
      */
-    abstract public void act(Field currentField, Field nextFieldState, int day, int hour);
+    public void act(Field currentField, Field nextFieldState, int day, int hour)
+    {
+        incrementAge();
+        incrementHunger();
+        if(isAlive()) {
+            List<Location> freeLocations =
+                    nextFieldState.getFreeAdjacentLocations(getLocation());
+            if(! freeLocations.isEmpty()) {
+                giveBirth(nextFieldState, freeLocations);
+            }
+            // Move towards a source of food if found.
+            Location nextLocation = findPrey(currentField);
+            if(nextLocation == null && ! freeLocations.isEmpty()) {
+                // No food found - try to move to a free location.
+                nextLocation = freeLocations.remove(0);
+            }
+            // See if it was possible to move.
+            if(nextLocation != null) {
+                setLocation(nextLocation);
+                nextFieldState.placeAnimal(this, nextLocation);
+            }
+            else {
+                // Overcrowding.
+                setDead();
+            }
+        }
+    }
+
+    /**
+     * Look for ankylosaurus' adjacent to the current location.
+     * Only the first live ankylosaurus is eaten.
+     * @param field The field currently occupied.
+     * @return Where food was found, or null if it wasn't.
+     */
+    protected Location findPrey(Field field)
+    {
+        List<Location> adjacent = field.getAdjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        Location foodLocation = null;
+        while(foodLocation == null && it.hasNext()) {
+            Location loc = it.next();
+            Living living = field.getAnimalAt(loc);
+            if(living != null && isFood(living)) {
+                if(living.isAlive()) {
+                    living.setDead();
+                    foodLevel = getFoodValue();
+                    foodLocation = loc;
+                }
+            }
+        }
+        return foodLocation;
+    }
+
+    /**
+     * Make this trex more hungry. This could result in the trex's death.
+     */
+    protected void incrementHunger()
+    {
+        foodLevel--;
+        if(foodLevel <= 0) {
+            setDead();
+        }
+    }
 
     /**
      * Check whether this trex is to give birth at this step.
@@ -152,6 +217,10 @@ public abstract class Animal extends Living
     protected abstract int getBreedingAge();
 
     protected abstract Animal createOffspring(Location loc);
+
+    protected abstract int getFoodValue();
+    
+    protected abstract boolean isFood(Living living);
 
     protected Gender getGender() {
         return gender;

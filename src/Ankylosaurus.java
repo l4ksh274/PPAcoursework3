@@ -16,6 +16,9 @@ public class Ankylosaurus extends Prey
     private static final double BREEDING_PROBABILITY = 0.75;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
+    // The food value of a single Berry. In effect, this is the
+    // number of steps a trex can go before it has to eat again.
+    private static final int BERRY_FOOD_VALUE = 20;
     
     // Individual characteristics (instance fields).
     
@@ -33,11 +36,17 @@ public class Ankylosaurus extends Prey
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
+        foodLevel = rand.nextInt(BERRY_FOOD_VALUE);
     }
     
     @Override
     protected int getMaxAge(){
         return MAX_AGE;
+    }
+
+    @Override
+    protected int getFoodValue() {
+        return BERRY_FOOD_VALUE;
     }
     
     @Override 
@@ -58,5 +67,15 @@ public class Ankylosaurus extends Prey
     @Override
     protected Animal createOffspring(Location loc) {
         return new Ankylosaurus(false, loc, field);
+    }
+
+    @Override
+    protected boolean isFood(Living living) {
+        if (living instanceof Berry) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
