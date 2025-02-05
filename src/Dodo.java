@@ -17,7 +17,7 @@ public class Dodo extends Prey
     private static final int MAX_LITTER_SIZE = 6;
     // The food value of a single Conifer. In effect, this is the
     // number of steps a trex can go before it has to eat again.
-    private static final int CONIFER_FOOD_VALUE = 25;
+    private static final int CONIFER_FOOD_VALUE = 50;
     
     /**
      * 

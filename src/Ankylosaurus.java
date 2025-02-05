@@ -18,7 +18,7 @@ public class Ankylosaurus extends Prey
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single Berry. In effect, this is the
     // number of steps a trex can go before it has to eat again.
-    private static final int BERRY_FOOD_VALUE = 20;
+    private static final int BERRY_FOOD_VALUE = 50;
     
     // Individual characteristics (instance fields).
     

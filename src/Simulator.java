@@ -15,15 +15,15 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a Trex will be created in any given grid position.
-    private static final double TREX_CREATION_PROBABILITY = 0.3;
+    private static final double TREX_CREATION_PROBABILITY = 0.1;
     // The probability that an Ankylosaurus will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.4;
     // The probability that an allosaurus will be created in any given grid position.
-    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.4;
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.15;
     // The probability that a dodo will be created in any given position.
     private static final double DODO_CREATION_PROBABILITY = 0.02;
     // The probability that a raptor will be created in any given position.
-    private static final double RAPTOR_CREATION_PROBABILITY = 0.5;
+    private static final double RAPTOR_CREATION_PROBABILITY = 0.25;
     // The probability that a berry will be created in a given position.
     private static final double BERRY_CREATION_PROBABILITY = 0.05;
     // The probability that a conifer will be created in a given position.
@@ -168,11 +168,11 @@ public class Simulator
                     field.placeLiving(raptor, location);
                 }else if(rand.nextDouble() <= BERRY_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Berry berry = new Berry(location, field, null);
+                    Berry berry = new Berry(location, field, true);
                     field.placeLiving(berry, location);
                 }else if(rand.nextDouble() <= CONIFER_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Conifer conifer = new Conifer(location, field, null);
+                    Conifer conifer = new Conifer(location, field, true);
                     field.placeLiving(conifer, location);
                 }
 
