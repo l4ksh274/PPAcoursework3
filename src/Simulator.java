@@ -15,19 +15,19 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a Trex will be created in any given grid position.
-    private static final double TREX_CREATION_PROBABILITY = 0.1;
+    private static final double TREX_CREATION_PROBABILITY = 0;
     // The probability that an Ankylosaurus will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.4;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3;
     // The probability that an allosaurus will be created in any given grid position.
-    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.15;
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0;
     // The probability that a dodo will be created in any given position.
-    private static final double DODO_CREATION_PROBABILITY = 0.02;
+    private static final double DODO_CREATION_PROBABILITY = 0.8;
     // The probability that a raptor will be created in any given position.
-    private static final double RAPTOR_CREATION_PROBABILITY = 0.25;
+    private static final double RAPTOR_CREATION_PROBABILITY = 0.8;
     // The probability that a berry will be created in a given position.
-    private static final double BERRY_CREATION_PROBABILITY = 0.05;
+    private static final double BERRY_CREATION_PROBABILITY = 0;
     // The probability that a conifer will be created in a given position.
-    private static final double CONIFER_CREATION_PROBABILITY = 0.05;
+    private static final double CONIFER_CREATION_PROBABILITY = 0.4;
 
 
     // The current state of the field.
@@ -89,7 +89,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps && field.isViable(); n++) {
             simulateOneStep();
-            delay(1000);         // adjust this to change execution speed (usually 50)
+            delay(100);         // adjust this to change execution speed (usually 50)
         }
     }
     
@@ -168,11 +168,11 @@ public class Simulator
                     field.placeLiving(raptor, location);
                 }else if(rand.nextDouble() <= BERRY_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Berry berry = new Berry(location, field, true);
+                    Berry berry = new Berry(true, location, field);
                     field.placeLiving(berry, location);
                 }else if(rand.nextDouble() <= CONIFER_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Conifer conifer = new Conifer(location, field, true);
+                    Conifer conifer = new Conifer(true, location, field);
                     field.placeLiving(conifer, location);
                 }
 

@@ -45,6 +45,11 @@ public class Ankylosaurus extends Prey
     }
 
     @Override
+    protected int getAge() {
+        return age;
+    }
+
+    @Override
     protected int getFoodValue() {
         return BERRY_FOOD_VALUE;
     }
@@ -72,10 +77,9 @@ public class Ankylosaurus extends Prey
     @Override
     protected boolean isFood(Living living) {
         if (living instanceof Berry) {
-            return true;
+            Berry berry = (Berry) living;
+            return berry.getAge() >= berry.getRipeAge();
         }
-        else {
-            return false;
-        }
+        return false;
     }
 }

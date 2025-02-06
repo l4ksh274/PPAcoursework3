@@ -45,6 +45,11 @@ public class Trex extends Predator
     protected int getMaxAge(){
         return MAX_AGE;
     }
+
+    @Override
+    protected int getAge() {
+        return age;
+    }
     
     @Override
     protected int getFoodValue(){

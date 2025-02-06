@@ -37,6 +37,11 @@ public class Dodo extends Prey
     }
 
     @Override
+    protected int getAge() {
+        return age;
+    }
+
+    @Override
     protected int getFoodValue() {
         return CONIFER_FOOD_VALUE;
     }
@@ -64,10 +69,9 @@ public class Dodo extends Prey
     @Override
     protected boolean isFood(Living living) {
         if (living instanceof Conifer) {
-            return true;
+            Conifer conifer = (Conifer) living;
+            return conifer.getAge() >= conifer.getRipeAge();
         }
-        else {
-            return false;
-        }
+        return false;
     }
 }

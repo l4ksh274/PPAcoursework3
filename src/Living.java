@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public abstract class Living {
     
     // Whether the thing is alive or not.
@@ -6,6 +8,8 @@ public abstract class Living {
     protected Location location;
     // The living thing's age.
     protected int age;
+    // Random class
+    protected static Random rand = Randomizer.getRandom();
 
     public Living(Location location, Field field) {
         this.alive = true;
@@ -61,6 +65,8 @@ public abstract class Living {
     }
 
     protected abstract int getMaxAge();
+
+    protected abstract int getAge();
 
     protected abstract void act(Field currentField, Field nextFieldState, int day, int hour);
 }

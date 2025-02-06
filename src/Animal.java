@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Random;
 import java.util.Iterator;
 
 /**
@@ -25,8 +24,6 @@ public abstract class Animal extends Living
     protected int timeOffset;
     // Whether the animal is sleeping or not.
     protected boolean sleeping;
-    // Random class
-    protected static Random rand = Randomizer.getRandom();
 
     /**
      * Constructor for objects of class Animal. Randomly assigns sleeping parameters.
