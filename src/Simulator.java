@@ -89,7 +89,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps && field.isViable(); n++) {
             simulateOneStep();
-            delay(500);         // adjust this to change execution speed (usually 50)
+            delay(50);         // adjust this to change execution speed (usually 50)
         }
     }
     

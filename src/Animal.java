@@ -122,6 +122,7 @@ public abstract class Animal extends Living
                     living.setDead();
                     foodLevel = getFoodValue();
                     foodLocation = loc;
+                    System.out.println("Killed" + living);
                 }
             }
         }
