@@ -13,12 +13,12 @@ public class Ankylosaurus extends Prey
     // The age to which a ankylosaurus can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a ankylosaurus breeding.
-    private static final double BREEDING_PROBABILITY = 0.4;
+    private static final double BREEDING_PROBABILITY = 0.2;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single Berry. In effect, this is the
     // number of steps a trex can go before it has to eat again.
-    private static final int BERRY_FOOD_VALUE = 30;
+    private static final int BERRY_FOOD_VALUE = 25;
     
     // Individual characteristics (instance fields).
     
@@ -77,9 +77,9 @@ public class Ankylosaurus extends Prey
     }
 
     @Override
-    protected boolean isFood(Living living) {
-        if (living instanceof Berry) {
-            Berry berry = (Berry) living;
+    protected boolean isFood(Entity entity) {
+        if (entity instanceof Berry) {
+            Berry berry = (Berry) entity;
             return berry.getAge() >= berry.getRipeAge();
         }
         return false;

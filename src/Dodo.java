@@ -12,9 +12,9 @@ public class Dodo extends Prey
     // The age to which a ankylosaurus can live
     private static final int MAX_AGE = 15;
     // The likelihood of a dodo breeding
-    private static final double BREEDING_PROBABILITY = 0.4;
+    private static final double BREEDING_PROBABILITY = 0.3;
     // The maximum number of births
-    private static final int MAX_LITTER_SIZE = 6;
+    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single Conifer. In effect, this is the
     // number of steps a trex can go before it has to eat again.
     private static final int CONIFER_FOOD_VALUE = 15;
@@ -69,9 +69,9 @@ public class Dodo extends Prey
     }
 
     @Override
-    protected boolean isFood(Living living) {
-        if (living instanceof Conifer) {
-            Conifer conifer = (Conifer) living;
+    protected boolean isFood(Entity entity) {
+        if (entity instanceof Conifer) {
+            Conifer conifer = (Conifer) entity;
             return conifer.getAge() >= conifer.getRipeAge();
         }
         return false;

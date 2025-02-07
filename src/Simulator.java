@@ -15,19 +15,19 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a Trex will be created in any given grid position.
-    private static final double TREX_CREATION_PROBABILITY = 0.05;
+    private static final double TREX_CREATION_PROBABILITY = 0.01;
     // The probability that an Ankylosaurus will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.5;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.6;
     // The probability that an allosaurus will be created in any given grid position.
-    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.05;
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.01;
     // The probability that a dodo will be created in any given position.
     private static final double DODO_CREATION_PROBABILITY = 0.6;
     // The probability that a raptor will be created in any given position.
     private static final double RAPTOR_CREATION_PROBABILITY = 0.6;
     // The probability that a berry will be created in a given position.
-    private static final double BERRY_CREATION_PROBABILITY = 0.6;
+    private static final double BERRY_CREATION_PROBABILITY = 0.8;
     // The probability that a conifer will be created in a given position.
-    private static final double CONIFER_CREATION_PROBABILITY = 0.6;
+    private static final double CONIFER_CREATION_PROBABILITY = 0.8;
 
 
     // The current state of the field.
@@ -113,9 +113,9 @@ public class Simulator
         // the next step.
         Field nextFieldState = new Field(field.getDepth(), field.getWidth());
 
-        List<Living> beings = field.getBeings();
-        for (Living aBeing : beings) {
-            aBeing.act(field, nextFieldState, day, hour);
+        List<Entity> entities = field.getEntities();
+        for (Entity anEntity : entities) {
+            anEntity.act(field, nextFieldState, day, hour);
         }
         
         // Replace the old state with the new one.
@@ -149,31 +149,31 @@ public class Simulator
                 if(rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Trex trex = new Trex(true, location, field);
-                    field.placeLiving(trex, location);
+                    field.placeEntity(trex, location);
                 }else if(rand.nextDouble() <= ALLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Allosaurus allosaurus = new Allosaurus(true, location, field);
-                    field.placeLiving(allosaurus, location);
+                    field.placeEntity(allosaurus, location);
                 }else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Ankylosaurus ankylosaurus = new Ankylosaurus(true, location, field);
-                    field.placeLiving(ankylosaurus, location);
+                    field.placeEntity(ankylosaurus, location);
                 }else if(rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Dodo dodo = new Dodo(true, location, field);
-                    field.placeLiving(dodo, location);
+                    field.placeEntity(dodo, location);
                 }else if(rand.nextDouble() <= RAPTOR_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Raptor raptor = new Raptor(true, location, field);
-                    field.placeLiving(raptor, location);
+                    field.placeEntity(raptor, location);
                 }else if(rand.nextDouble() <= BERRY_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Berry berry = new Berry(true, location, field);
-                    field.placeLiving(berry, location);
+                    field.placeEntity(berry, location);
                 }else if(rand.nextDouble() <= CONIFER_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Conifer conifer = new Conifer(true, location, field);
-                    field.placeLiving(conifer, location);
+                    field.placeEntity(conifer, location);
                 }
 
                 // else leave the location empty.
@@ -182,7 +182,7 @@ public class Simulator
     }
 
     /**
-     * Report on the number of each type of animal in the field.
+     * Report on the number of each type of entity in the field.
      */
     public void reportStats()
     {

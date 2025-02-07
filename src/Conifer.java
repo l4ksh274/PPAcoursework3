@@ -38,7 +38,6 @@ public class Conifer extends Plant {
 
     @Override
     protected Plant createOffspring(Location seedSproutLocation) {
-        System.out.println("New baby conifer");
         return new Conifer(false, seedSproutLocation, field);
     }
 }

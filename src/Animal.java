@@ -2,18 +2,18 @@ import java.util.List;
 import java.util.Iterator;
 
 /**
- * Common elements of foxes and rabbits.
+ * Common elements of animals in this simulation.
  *
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
  */
-public abstract class Animal extends Living
+public abstract class Animal extends Entity
 {
     // The predator's food level, which is increased by eating their prey.
     protected int foodLevel;
     // The animal's gender
     protected Gender gender;
-
+    // Reference to the field
     protected Field field;
 
     // The base hour that the animal will go to sleep at.
@@ -32,8 +32,8 @@ public abstract class Animal extends Living
     public Animal(Location location, Field field)
     {
         super(location, field);
-        this.gender = Gender.randomGender();
         this.field = field;
+        this.gender = Gender.randomGender();
         this.sleepHour = rand.nextInt(24);
         this.wakeHour = rand.nextInt(24);
         this.timeOffset = rand.nextInt(5);
@@ -49,17 +49,16 @@ public abstract class Animal extends Living
     public Animal(Location location, Field field, int sleepHour, int wakeHour, int timeOffset)
     {
         this(location, field);
-        this.gender = Gender.randomGender();
         this.field = field;
+        this.gender = Gender.randomGender();
         this.sleepHour = sleepHour;
         this.wakeHour = wakeHour;
         this.timeOffset = timeOffset;
     }
 
     /**
-     * This is what the trex does most of the time: it hunts for
-     * ankylosaurus'. In the process, it might breed, die of hunger,
-     * or die of old age.
+     * Perform this animal's actions for one step:
+     * increment age / hunger, possibly breed, move or die of overcrowding
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
      * @param day The day of the new state.
@@ -82,7 +81,7 @@ public abstract class Animal extends Living
             // See if it was possible to move.
             if(nextLocation != null) {
                 setLocation(nextLocation);
-                nextFieldState.placeLiving(this, nextLocation);
+                nextFieldState.placeEntity(this, nextLocation);
             }
             else {
                 // Overcrowding.
@@ -92,7 +91,8 @@ public abstract class Animal extends Living
     }
 
     /**
-     * Move towards a source of food if found.
+     * Attempt to find food in adjacent squares.
+     * If none is found, then return a free location (if there are any).
      */
     public Location findFood(Field currentField, List<Location> freeLocations) {
         Location nextLocation = findFoodSource(currentField);
@@ -104,8 +104,8 @@ public abstract class Animal extends Living
     }
 
     /**
-     * Look for ankylosaurus' adjacent to the current location.
-     * Only the first live ankylosaurus is eaten.
+     * Look for a valid food entity in the adjacent squares. (prey or plant)
+     * If found, eat animal by setting it to dead and update the animal's food level.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
@@ -116,13 +116,12 @@ public abstract class Animal extends Living
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
-            Living living = field.getAnimalAt(loc);
-            if(living != null && isFood(living)) {
-                if(living.isAlive()) {
-                    living.setDead();
+            Entity entity = field.getEntityAt(loc);
+            if(entity != null && isFood(entity)) {
+                if(entity.isAlive()) {
+                    entity.setDead();
                     foodLevel = getFoodValue();
                     foodLocation = loc;
-                    System.out.println("Killed" + living);
                 }
             }
         }
@@ -130,7 +129,7 @@ public abstract class Animal extends Living
     }
 
     /**
-     * Make this trex more hungry. This could result in the trex's death.
+     * Increment hunger by 1. The animal may die if their hunger falls below 0.
      */
     protected void incrementHunger()
     {
@@ -141,7 +140,7 @@ public abstract class Animal extends Living
     }
 
     /**
-     * Check whether this trex is to give birth at this step.
+     * If a mate is found, attempt to give birth into adjacent free squares
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
@@ -158,7 +157,8 @@ public abstract class Animal extends Living
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 Animal young = createOffspring(loc);
-                nextFieldState.placeLiving(young, loc);
+                nextFieldState.placeEntity(young, loc);
+                System.out.println(this + " has been born"); 
             }
         }
     }
@@ -181,7 +181,7 @@ public abstract class Animal extends Living
     }
 
     /**
-     * A rabbit can breed if it has reached the breeding age.
+     * Check if this animal is old enough to breed.
      * @return true if the rabbit can breed, false otherwise.
      */
     protected boolean canBreed()
@@ -190,7 +190,8 @@ public abstract class Animal extends Living
     }
 
     /**
-     * Checks all freeLocations to see if there are any animals of the opposite gender and removes animals of the same gender
+     * Check if there are any animals of the opposite gender amongst the adjacent squares.
+     * If not, the animal can't breed.
      * @return
      */
     protected boolean foundMate(List<Location> freeLocations) {
@@ -198,15 +199,15 @@ public abstract class Animal extends Living
 
         while (iterator.hasNext()){
             Location location = iterator.next();
-            Living being = field.getAnimalAt(location);
+            Entity entity = field.getEntityAt(location);
 
-            if (being == null) {
+            if (entity == null) {
                 iterator.remove();
                 continue;
             }
 
-            if (being instanceof Animal) {
-                Animal animal = (Animal) being;
+            if (entity instanceof Animal) {
+                Animal animal = (Animal) entity;
                 
                 if (gender == Gender.MALE && animal.getGender() == Gender.FEMALE) {
                     continue;
@@ -224,20 +225,52 @@ public abstract class Animal extends Living
         }
     }
 
+    /**
+     * @return Proability that this animal can breed successfully.
+     */
     protected abstract double getBreedingProbability();
 
+    /**
+     * @return Maximum number of offspring in a single birth event.
+     */
     protected abstract int getMaxLitterSize();
 
+    /**
+     * @return Minumum age for animal to start breeding.
+     */
     protected abstract int getBreedingAge();
 
+    /**
+     * @param loc The location for the offspring to be born at.
+     * @return A new instance of the animal as an offspring at the given location.
+     */
     protected abstract Animal createOffspring(Location loc);
 
+    /**
+     * @return How much hunger is restored when this animal eats its food.
+     */
     protected abstract int getFoodValue();
     
-    protected abstract boolean isFood(Living living);
+    /**
+     * @return true if the given entity is valid food for this animal, else false.
+     */
+    protected abstract boolean isFood(Entity entity);
 
+    /**
+     * @return The Gender (MALE/FEMALE) of this animal.
+     */
     protected Gender getGender() {
         return gender;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +
+                "age=" + age +
+                ", alive=" + isAlive() +
+                ", location=" + getLocation() +
+                ", foodLevel=" + foodLevel +
+                '}';
     }
 
     /**

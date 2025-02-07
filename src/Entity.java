@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public abstract class Living {
+public abstract class Entity {
     
     // Whether the thing is alive or not.
     protected boolean alive;
@@ -11,7 +11,7 @@ public abstract class Living {
     // Random class
     protected static Random rand = Randomizer.getRandom();
 
-    public Living(Location location, Field field) {
+    public Entity(Location location, Field field) {
         this.alive = true;
         this.location = location;
     }
@@ -64,9 +64,22 @@ public abstract class Living {
         location = null;
     }
 
+    /**
+     * @return The max age of the entity.
+     */
     protected abstract int getMaxAge();
 
+    /**
+     * @return The current age of the entity.
+     */
     protected abstract int getAge();
 
+    /**
+     * Defines the behaviour of this entity for one simulation step.
+     * @param currentField The current state of the field.
+     * @param nextFieldState The updated state of the field.
+     * @param day The current day of the simulation.
+     * @param hour The current hour in the simulation.
+     */
     protected abstract void act(Field currentField, Field nextFieldState, int day, int hour);
 }

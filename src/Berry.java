@@ -38,7 +38,6 @@ public class Berry extends Plant {
 
     @Override
     protected Plant createOffspring(Location seedSproutLocation) {
-        System.out.println("New baby berry");
         return new Berry(false, seedSproutLocation, field);
     }
 }

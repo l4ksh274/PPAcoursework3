@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * Represent a rectangular grid of field positions.
- * Each position is able to store a single animal/object.
+ * Each position is able to store a single entity/object.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
@@ -14,10 +14,10 @@ public class Field
     
     // The dimensions of the field.
     private final int depth, width;
-    // Animals mapped by location.
-    private final Map<Location, Living> field = new HashMap<>();
+    // Entities mapped by location.
+    private final Map<Location, Entity> field = new HashMap<>();
     // The animals.
-    private final List<Living> beings = new ArrayList<>();
+    private final List<Entity> entities = new ArrayList<>();
 
     /**
      * Represent a field of the given dimensions.
@@ -37,15 +37,15 @@ public class Field
      * @param anAnimal The animal to be placed.
      * @param location Where to place the animal.
      */
-    public void placeLiving(Living aBeing, Location location)
+    public void placeEntity(Entity aEntity, Location location)
     {
         assert location != null;
         Object other = field.get(location);
         if(other != null) {
-            beings.remove(other);
+            entities.remove(other);
         }
-        field.put(location, aBeing);
-        beings.add(aBeing);
+        field.put(location, aEntity);
+        entities.add(aEntity);
     }
     
     /**
@@ -53,7 +53,7 @@ public class Field
      * @param location Where in the field.
      * @return The animal at the given location, or null if there is none.
      */
-    public Living getAnimalAt(Location location)
+    public Entity getEntityAt(Location location)
     {
         return field.get(location);
     }
@@ -68,11 +68,11 @@ public class Field
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = getAdjacentLocations(location);
         for(Location next : adjacent) {
-            Living aBeing = field.get(next);
-            if(aBeing == null) {
+            Entity aEntity = field.get(next);
+            if(aEntity == null) {
                 free.add(next);
             }
-            else if(!aBeing.isAlive()) {
+            else if(!aEntity.isAlive()) {
                 free.add(next);
             }
         }
@@ -118,15 +118,15 @@ public class Field
      */
     public void fieldStats()
     {
-        HashMap<Class<? extends Living>, Integer> counts = new HashMap<>();
-        for(Living aBeing : field.values()) {
-            if (!counts.containsKey(aBeing.getClass())) {
-                counts.put(aBeing.getClass(), 1);
+        HashMap<Class<? extends Entity>, Integer> counts = new HashMap<>();
+        for(Entity aEntity : field.values()) {
+            if (!counts.containsKey(aEntity.getClass())) {
+                counts.put(aEntity.getClass(), 1);
             }else{
-                counts.put(aBeing.getClass(), counts.get(aBeing.getClass()) + 1);
+                counts.put(aEntity.getClass(), counts.get(aEntity.getClass()) + 1);
             }
         }
-        for (Map.Entry<Class<? extends Living>, Integer> entry : counts.entrySet()) {
+        for (Map.Entry<Class<? extends Entity>, Integer> entry : counts.entrySet()) {
             System.out.print(entry.getKey().getName() + " : " + entry.getValue()  + " ");
         }
         System.out.println();
@@ -155,21 +155,23 @@ public class Field
          */
 
         // Keeps track of the animals classes that are still on the field. A value of 1 indicates it exists.
-        HashSet<Class<? extends Living>> classExists = new HashSet<>();
+        HashSet<Class<? extends Entity>> classExists = new HashSet<>();
 
 
 
-        for (Living beings : beings){
+        for (Entity entities : entities){
 
-            classExists.add(beings.getClass());
+            classExists.add(entities.getClass());
 
             // Checks if a pair exists by querying the hashmap and seeing in a non-null value is returned for both animals.
             boolean trexAnkylosaurusPair = classExists.contains(Trex.class) && classExists.contains(Ankylosaurus.class);
             boolean allosaurusAnkylosaurusPair = classExists.contains(Allosaurus.class) && classExists.contains(Ankylosaurus.class);
             boolean raptorDodoPair = classExists.contains(Raptor.class) && classExists.contains(Dodo.class);
+            boolean ankylosaurusBerryPair = classExists.contains(Ankylosaurus.class) && classExists.contains(Berry.class);
+            boolean dodoConiferPair = classExists.contains(Dodo.class) && classExists.contains(Conifer.class);
 
             // If any of the 3 existing pairs exists, then true
-            if (trexAnkylosaurusPair || allosaurusAnkylosaurusPair || raptorDodoPair) {
+            if (trexAnkylosaurusPair || allosaurusAnkylosaurusPair || raptorDodoPair || ankylosaurusBerryPair || dodoConiferPair) {
                 return true;
             }
         }
@@ -183,9 +185,9 @@ public class Field
     /**
      * Get the list of animals.
      */
-    public List<Living> getBeings()
+    public List<Entity> getEntities()
     {
-        return beings;
+        return entities;
     }
 
     /**
