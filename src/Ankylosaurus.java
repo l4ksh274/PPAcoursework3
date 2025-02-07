@@ -13,12 +13,12 @@ public class Ankylosaurus extends Prey
     // The age to which a ankylosaurus can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a ankylosaurus breeding.
-    private static final double BREEDING_PROBABILITY = 0.75;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single Berry. In effect, this is the
     // number of steps a trex can go before it has to eat again.
-    private static final int BERRY_FOOD_VALUE = 50;
+    private static final int BERRY_FOOD_VALUE = 30;
     
     // Individual characteristics (instance fields).
     
@@ -32,9 +32,11 @@ public class Ankylosaurus extends Prey
     public Ankylosaurus(boolean randomAge, Location location, Field field)
     {
         super(location, field);
-        age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
+        }
+        else {
+            age = 0;
         }
         foodLevel = rand.nextInt(BERRY_FOOD_VALUE);
     }

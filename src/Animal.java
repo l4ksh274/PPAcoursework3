@@ -49,6 +49,8 @@ public abstract class Animal extends Living
     public Animal(Location location, Field field, int sleepHour, int wakeHour, int timeOffset)
     {
         this(location, field);
+        this.gender = Gender.randomGender();
+        this.field = field;
         this.sleepHour = sleepHour;
         this.wakeHour = wakeHour;
         this.timeOffset = timeOffset;
@@ -90,12 +92,24 @@ public abstract class Animal extends Living
     }
 
     /**
+     * Move towards a source of food if found.
+     */
+    public Location findFood(Field currentField, List<Location> freeLocations) {
+        Location nextLocation = findFoodSource(currentField);
+        if(nextLocation == null && ! freeLocations.isEmpty()) {
+            // No food found - try to move to a free location.
+            nextLocation = freeLocations.remove(0);
+        }
+        return nextLocation;
+    }
+
+    /**
      * Look for ankylosaurus' adjacent to the current location.
      * Only the first live ankylosaurus is eaten.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
-    protected Location findPrey(Field field)
+    protected Location findFoodSource(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
@@ -224,8 +238,6 @@ public abstract class Animal extends Living
     protected Gender getGender() {
         return gender;
     }
-    
-    protected abstract Location findFood(Field currentField, List<Location> freeLocations);
 
     /**
      * Gets the base sleep hour of the animal.

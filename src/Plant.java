@@ -22,13 +22,14 @@ public abstract class Plant extends Living {
             nextFieldState.placeLiving(this, this.getLocation());
         }
         else {
-            setDead();
+            // setDead();
             
             // Seeds have a probability of sprouting after parent plant has died
             if (nextFieldState.getAnimalAt(seedSproutLocation) == null) {
                 if (rand.nextDouble() <= getSeedSproutProbability()) {
-                    sproutNewPlant(seedSproutLocation, nextFieldState);
-                    System.out.println("New seedling sprouted");
+                    Plant young = createOffspring(seedSproutLocation);
+                    nextFieldState.placeLiving(young, seedSproutLocation);
+                    System.out.println("New seedling sprouted at " + seedSproutLocation);
                 }
             }
         }
@@ -36,5 +37,5 @@ public abstract class Plant extends Living {
 
     protected abstract double getSeedSproutProbability();
 
-    protected abstract void sproutNewPlant(Location seedSproutLocation, Field nextFieldState);
+    protected abstract Plant createOffspring(Location seedSproutLocation);
 }

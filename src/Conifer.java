@@ -3,7 +3,7 @@ public class Conifer extends Plant {
     // Conifer matures and can be eaten
     private static final int RIPE_AGE = 10;
     // Conifer's chance of seeds sprouting when parent conifer dies
-    private static final double SEED_SPROUT_PROBABILITY = 0.3;
+    private static final double SEED_SPROUT_PROBABILITY = 1;
 
     private static final int MAX_AGE = 200;
 
@@ -37,8 +37,8 @@ public class Conifer extends Plant {
     }
 
     @Override
-    protected void sproutNewPlant(Location seedSproutLocation, Field nextFieldState) {
-        Conifer conifer = new Conifer(false, seedSproutLocation, nextFieldState);
-        field.placeLiving(conifer, seedSproutLocation);
+    protected Plant createOffspring(Location seedSproutLocation) {
+        System.out.println("New baby conifer");
+        return new Conifer(false, seedSproutLocation, field);
     }
 }
