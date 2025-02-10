@@ -5,7 +5,7 @@ public class Conifer extends Plant {
     // Conifer's chance of seeds sprouting when parent conifer dies
     private static final double SEED_SPROUT_PROBABILITY = 1;
 
-    private static final int MAX_AGE = 200;
+    private static final int MAX_AGE = 700;
 
     public Conifer(Boolean randomAge, Location location, Field field) {
         super(location, field);

@@ -5,7 +5,7 @@ public class Berry extends Plant {
     // Berry's chance of seeds sprouting when parent berry dies
     private static final double SEED_SPROUT_PROBABILITY = 1;
 
-    private static final int MAX_AGE = 300;
+    private static final int MAX_AGE = 700;
 
     public Berry(Boolean randomAge, Location location, Field field) {
         super(location, field);
