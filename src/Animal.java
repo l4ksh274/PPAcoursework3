@@ -122,11 +122,6 @@ public abstract class Animal extends Entity
                     entity.setDead();
                     foodLevel = getFoodValue();
                     foodLocation = loc;
-                    
-                    // debugging
-                    if (entity instanceof Plant) {
-                        System.out.println(entity + " is killed");
-                    }
                 }
             }
         }
@@ -229,6 +224,16 @@ public abstract class Animal extends Entity
         }
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +
+                "age=" + age +
+                ", alive=" + isAlive() +
+                ", location=" + getLocation() +
+                ", foodLevel=" + foodLevel +
+                '}';
+    }
+
     /**
      * @return Proability that this animal can breed successfully.
      */
@@ -265,16 +270,6 @@ public abstract class Animal extends Entity
      */
     protected Gender getGender() {
         return gender;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "age=" + age +
-                ", alive=" + isAlive() +
-                ", location=" + getLocation() +
-                ", foodLevel=" + foodLevel +
-                '}';
     }
 
     /**

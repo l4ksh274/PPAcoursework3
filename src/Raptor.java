@@ -14,7 +14,7 @@ public class Raptor extends Predator
     // The likelihood of a raptor breeding
     private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births
-    private static final int MAX_LITTER_SIZE = 3;
+    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single dodo
     private static final int DODO_FOOD_VALUE = 20;
     
@@ -66,11 +66,6 @@ public class Raptor extends Predator
     
     @Override
     protected boolean isFood(Entity entity) {
-        if(entity instanceof Dodo) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return entity instanceof Dodo;
     }
 }

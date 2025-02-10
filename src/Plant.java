@@ -41,9 +41,6 @@ public abstract class Plant extends Entity {
                 if (rand.nextDouble() <= getSeedSproutProbability()) {
                     Plant young = createOffspring(seedSproutLocation);
                     nextFieldState.placeEntity(young, seedSproutLocation);
-
-                    // debugging
-                    System.out.println(young + " is respawning" + young.getLocation());
                 }
             }
         }

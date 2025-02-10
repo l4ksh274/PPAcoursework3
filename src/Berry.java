@@ -3,7 +3,7 @@ public class Berry extends Plant {
     // Berry matures and can be eaten
     private static final int RIPE_AGE = 50;
     // Berry's chance of seeds sprouting when parent berry dies
-    private static final double SEED_SPROUT_PROBABILITY = 1;
+    private static final double SEED_SPROUT_PROBABILITY = 0.9;
 
     private static final int MAX_AGE = 700;
 
