@@ -47,7 +47,7 @@ public class Field
         field.put(location, aEntity);
         entities.add(aEntity);
     }
-    
+
     /**
      * Return the animal at the given location, if any.
      * @param location Where in the field.

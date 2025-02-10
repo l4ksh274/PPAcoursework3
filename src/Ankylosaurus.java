@@ -80,6 +80,8 @@ public class Ankylosaurus extends Prey
     protected boolean isFood(Entity entity) {
         if (entity instanceof Berry) {
             Berry berry = (Berry) entity;
+            // System.out.println(berry.getAge() + ">=" + berry.getRipeAge());
+            // System.out.println(berry.getLocation());
             return berry.getAge() >= berry.getRipeAge();
         }
         return false;

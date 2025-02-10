@@ -71,7 +71,7 @@ public abstract class Animal extends Entity
         if(isAlive()) {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            if(! freeLocations.isEmpty()) {
+            if(!freeLocations.isEmpty()) {
                 giveBirth(nextFieldState, freeLocations);
             }
             
@@ -122,6 +122,11 @@ public abstract class Animal extends Entity
                     entity.setDead();
                     foodLevel = getFoodValue();
                     foodLocation = loc;
+                    
+                    // debugging
+                    if (entity instanceof Plant) {
+                        System.out.println(entity + " is killed");
+                    }
                 }
             }
         }
@@ -158,7 +163,6 @@ public abstract class Animal extends Entity
                 Location loc = freeLocations.remove(0);
                 Animal young = createOffspring(loc);
                 nextFieldState.placeEntity(young, loc);
-                System.out.println(this + " has been born"); 
             }
         }
     }

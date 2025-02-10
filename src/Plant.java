@@ -36,15 +36,12 @@ public abstract class Plant extends Entity {
             nextFieldState.placeEntity(this, this.getLocation());
         }
         else {
-            // Mark the plant as dead.
-            setDead();
-            
             // Seeds have a probability of sprouting after parent plant has died
-            if (nextFieldState.getEntityAt(seedSproutLocation) == null) {
+            if (nextFieldState.getEntityAt(seedSproutLocation) != null) {
                 if (rand.nextDouble() <= getSeedSproutProbability()) {
                     Plant young = createOffspring(seedSproutLocation);
                     nextFieldState.placeEntity(young, seedSproutLocation);
-                    System.out.println(young + " is respawning");
+                    System.out.println(young + " is respawning" + young.getLocation());
                 }
             }
         }
