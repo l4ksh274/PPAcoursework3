@@ -16,7 +16,7 @@ public class Field
     private final int depth, width;
     // Entities mapped by location.
     private final Map<Location, Entity> field = new HashMap<>();
-    // The animals.
+    // The entities.
     private final List<Entity> entities = new ArrayList<>();
 
     /**

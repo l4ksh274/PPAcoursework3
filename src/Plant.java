@@ -44,7 +44,6 @@ public abstract class Plant extends Entity {
 
                     // debugging
                     System.out.println(young + " is respawning" + young.getLocation());
-                    
                 }
             }
         }
