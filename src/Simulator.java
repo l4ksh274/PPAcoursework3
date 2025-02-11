@@ -25,6 +25,13 @@ public class Simulator
     // The probability that a raptor will be created in any given position.
     private static final double RAPTOR_CREATION_PROBABILITY = 0.02;
 
+    // The probability that an animal spawns with Influenza
+    private static final double INFLUENZA_PROBABILITY = 0.015;
+    // The probability that an animal spawns with Chlamydia
+    private static final double CHLAMYDIA_PROBABILITY = 0.01;
+    // The probability that an animal spawns with Salmonella
+    private static final double SALMONELLA_PROBABILITY = 0.015;
+
 
     // The current state of the field.
     private Field field;
@@ -142,28 +149,46 @@ public class Simulator
         field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
+                Animal animal = null;
                 if(rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Trex trex = new Trex(true, location);
-                    field.placeAnimal(trex, location);
+                    animal = new Trex(true, location);
+                    field.placeAnimal(animal, location);
+
                 }else if(rand.nextDouble() <= ALLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Allosaurus allosaurus = new Allosaurus(true, location);
-                    field.placeAnimal(allosaurus, location);
-                }                else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
+                    animal = new Allosaurus(true, location);
+                    field.placeAnimal(animal, location);
+
+                }else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Ankylosaurus ankylosaurus = new Ankylosaurus(true, location);
-                    field.placeAnimal(ankylosaurus, location);
+                    animal = new Ankylosaurus(true, location);
+                    field.placeAnimal(animal, location);
+
                 }else if(rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Dodo dodo = new Dodo(true, location);
-                    field.placeAnimal(dodo, location);
+                    animal = new Dodo(true, location);
+                    field.placeAnimal(animal, location);
+
                 }else if(rand.nextDouble() <= RAPTOR_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Raptor raptor = new Raptor(true, location);
-                    field.placeAnimal(raptor, location);
+                    animal = new Raptor(true, location);
+                    field.placeAnimal(animal, location);
                 }
                 // else leave the location empty.
+                // Chance to infect the animal with diseases
+                if (animal != null ) {
+                    if (rand.nextDouble() <= INFLUENZA_PROBABILITY) {
+                        animal.infect(new Influenza());
+                    }
+                    if (rand.nextDouble() <= CHLAMYDIA_PROBABILITY) {
+                        animal.infect(new Chlamydia());
+                    }
+                    if (rand.nextDouble() <= SALMONELLA_PROBABILITY) {
+                        animal.infect(new Salmonella());
+                    }
+                }
+
             }
         }
     }

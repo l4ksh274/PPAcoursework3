@@ -109,6 +109,9 @@ public class FieldStats
                 Animal animal = field.getAnimalAt(new Location(row, col));
                 if(animal != null) {
                     incrementCount(animal.getClass());
+                    for (Disease disease : animal.getDiseases()){
+                        incrementCount(disease.getClass());
+                    }
                 }
             }
         }

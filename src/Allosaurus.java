@@ -1,5 +1,5 @@
 /**
- * Write a description of class Allosaurus here.
+ * Implementation of the Allosaurus dinosaur with its unique characteristics
  *
  * @author (your name)
  * @version (a version number or a date)
@@ -62,11 +62,6 @@ public class Allosaurus extends Predator
     
     @Override
     protected boolean isPrey(Animal animal) {
-        if(animal instanceof Ankylosaurus) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return animal instanceof Ankylosaurus;
     }
 }

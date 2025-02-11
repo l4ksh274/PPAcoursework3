@@ -34,31 +34,37 @@ public abstract class Predator extends Animal
     @Override
     public void act(Field currentField, Field nextFieldState, int day, int hour)
     {
-        incrementAge();
+        checkMortality(nextFieldState);
         updateSleeping(hour, SLEEP_CHANGE_PROBABILITY);
         if (!sleeping){
             incrementHunger();
             if(isAlive()) {
-                List<Location> freeLocations =
-                        nextFieldState.getFreeAdjacentLocations(getLocation());
-                if(! freeLocations.isEmpty()) {
-                    giveBirth(nextFieldState, freeLocations);
+                if (rand.nextFloat() < moveProbability){
+                    List<Location> freeLocations =
+                            nextFieldState.getFreeAdjacentLocations(getLocation());
+                    // There is a free location and the random number generator falls within the breeding chance.
+                    if(!freeLocations.isEmpty() && rand.nextFloat() < getBreedingProbabilityMulitplier()) {
+                        giveBirth(nextFieldState, freeLocations);
+                    }
+                    // Move towards a source of food if found.
+                    Location nextLocation = findFood(currentField);
+                    if(nextLocation == null && ! freeLocations.isEmpty()) {
+                        // No food found - try to move to a free location.
+                        nextLocation = freeLocations.remove(0);
+                    }
+                    // See if it was possible to move.
+                    if(nextLocation != null) {
+                        setLocation(nextLocation);
+                        nextFieldState.placeAnimal(this, nextLocation);
+                    }
+                    else {
+                        // Overcrowding.
+                        setDead();
+                    }
+                }else{
+                    nextFieldState.placeAnimal(this, getLocation());
                 }
-                // Move towards a source of food if found.
-                Location nextLocation = findFood(currentField);
-                if(nextLocation == null && ! freeLocations.isEmpty()) {
-                    // No food found - try to move to a free location.
-                    nextLocation = freeLocations.remove(0);
-                }
-                // See if it was possible to move.
-                if(nextLocation != null) {
-                    setLocation(nextLocation);
-                    nextFieldState.placeAnimal(this, nextLocation);
-                }
-                else {
-                    // Overcrowding.
-                    setDead();
-                }
+
             }
         }else{
             nextFieldState.placeAnimal(this, getLocation());

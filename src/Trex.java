@@ -73,11 +73,6 @@ public class Trex extends Predator
     
     @Override
     protected boolean isPrey(Animal animal) {
-        if(animal instanceof Ankylosaurus) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return animal instanceof Ankylosaurus;
     }
 }
