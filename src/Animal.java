@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Common elements of foxes and rabbits.
+ * Common elements of all animals in the simulation
  *
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
@@ -13,9 +15,16 @@ public abstract class Animal
     private boolean alive;
     // The animal's position.
     private Location location;
+    // The diseases the animal is infected with
+    private List<Disease> diseases;
+    // Probability of the affected entity dying.
+    private float mortalityProbability;
+    // Probability of the entity breeding.
+    private float breedingProbabilityMultiplier;
+
+
     // The animal's age
     protected int age;
-
     // The base hour that the animal will go to sleep at.
     protected int sleepHour;
     // The base hour that the animal wakes up at.
@@ -26,6 +35,8 @@ public abstract class Animal
     protected boolean sleeping;
     // Random class
     protected static Random rand = Randomizer.getRandom();
+    // The probability that the animal will move.
+    protected float moveProbability;
 
     /**
      * Constructor for objects of class Animal. Randomly assigns sleeping parameters.
@@ -39,6 +50,10 @@ public abstract class Animal
         this.sleepHour = rand.nextInt(6) + 18;
         this.wakeHour = rand.nextInt(18);
         this.timeOffset = rand.nextInt(5);
+        diseases = new ArrayList<>();
+        moveProbability = 1f;
+        mortalityProbability = 0;
+        breedingProbabilityMultiplier = 1f;
     }
 
     /**
@@ -224,6 +239,61 @@ public abstract class Animal
         else if (sleepDeviation && (wakeHour + this.timeOffset) >= hour && (wakeHour -  this.timeOffset) <= hour){
             this.sleeping = false;
         }
+    }
+
+    /**
+     * Multiplies the move probability by a decimal
+     * @param moveProbability the decimal you want to multiply the move probability by.
+     */
+
+    public void modifyMoveProbability(float moveProbability) {
+        this.moveProbability *= moveProbability;
+    }
+
+    public List<Disease> getDiseases() {
+        return diseases;
+    }
+
+    public void infect(Disease disease) {
+        if (!diseases.contains(disease)){
+            diseases.add(disease);
+        }
+    }
+
+    public float getMortalityProbability() {
+        return mortalityProbability;
+    }
+
+    public void increaseMortalityRate(float mortalityRateIncrease) {
+        this.mortalityProbability += mortalityRateIncrease;
+    }
+
+    protected void checkMortality(Field nextFieldState){
+        if (rand.nextFloat() < mortalityProbability){
+            setDead();
+            return;
+        }
+        Iterator<Disease> diseaseIterator = getDiseases().iterator();
+        while (diseaseIterator.hasNext()){
+            Disease disease = diseaseIterator.next();
+            disease.incrementStepsElapsed();
+            if (disease.getStepsElapsed() == disease.getDurationInSteps()){
+                diseaseIterator.remove();
+            }else{
+                for (Symptoms symptom : disease.getSymptoms()){
+                    symptom.applyAffect(this, nextFieldState);
+                }
+            }
+        }
+        incrementAge();
+    }
+
+    public void changeBreedingProbability(float changeProbability) {
+        breedingProbabilityMultiplier *= changeProbability;
+    }
+
+    public float getBreedingProbabilityMulitplier() {
+        return breedingProbabilityMultiplier;
     }
 
 }

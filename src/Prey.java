@@ -29,25 +29,30 @@ public abstract class Prey extends Animal {
     @Override
     public void act(Field currentField, Field nextFieldState, int day, int hour)
     {
-        incrementAge();
+        checkMortality(nextFieldState);
         updateSleeping(hour, SLEEP_CHANGE_PROBABILITY);
 
         if(!sleeping){
             if(isAlive()) {
-                List<Location> freeLocations =
-                        nextFieldState.getFreeAdjacentLocations(getLocation());
-                if(!freeLocations.isEmpty()) {
-                    giveBirth(nextFieldState, freeLocations);
-                }
-                // Try to move into a free location.
-                if(! freeLocations.isEmpty()) {
-                    Location nextLocation = freeLocations.get(0);
-                    setLocation(nextLocation);
-                    nextFieldState.placeAnimal(this, nextLocation);
-                }
-                else {
-                    // Overcrowding.
-                    setDead();
+                if (rand.nextFloat() < moveProbability){
+                    List<Location> freeLocations =
+                            nextFieldState.getFreeAdjacentLocations(getLocation());
+                    // There is a free location and the random number generator falls within the breeding chance.
+                    if(!freeLocations.isEmpty() && rand.nextFloat() < getBreedingProbabilityMulitplier()) {
+                        giveBirth(nextFieldState, freeLocations);
+                    }
+                    // Try to move into a free location.
+                    if(! freeLocations.isEmpty()) {
+                        Location nextLocation = freeLocations.get(0);
+                        setLocation(nextLocation);
+                        nextFieldState.placeAnimal(this, nextLocation);
+                    }
+                    else {
+                        // Overcrowding.
+                        setDead();
+                    }
+                }else{
+                    nextFieldState.placeAnimal(this, getLocation());
                 }
             }
         }else{
