@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -69,14 +70,13 @@ public abstract class Animal extends Entity
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            List<Location> freeLocations =
-                    nextFieldState.getFreeAdjacentLocations(getLocation());
-            if(!freeLocations.isEmpty()) {
-                giveBirth(nextFieldState, freeLocations);
-            }
+            List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
+            List<Location> adjacentLocations = nextFieldState.getAdjacentLocations(getLocation());
+
+            giveBirth(nextFieldState, adjacentLocations, freeLocations);
             
             // Move towards a source of food if found.
-            Location nextLocation = findFood(currentField, freeLocations);
+            Location nextLocation = findFood(currentField, adjacentLocations, freeLocations);
 
             // See if it was possible to move.
             if(nextLocation != null) {
@@ -88,44 +88,6 @@ public abstract class Animal extends Entity
                 setDead();
             }
         }
-    }
-
-    /**
-     * Attempt to find food in adjacent squares.
-     * If none is found, then return a free location (if there are any).
-     */
-    public Location findFood(Field currentField, List<Location> freeLocations) {
-        Location nextLocation = findFoodSource(currentField);
-        if(nextLocation == null && ! freeLocations.isEmpty()) {
-            // No food found - try to move to a free location.
-            nextLocation = freeLocations.remove(0);
-        }
-        return nextLocation;
-    }
-
-    /**
-     * Look for a valid food entity in the adjacent squares. (prey or plant)
-     * If found, eat animal by setting it to dead and update the animal's food level.
-     * @param field The field currently occupied.
-     * @return Where food was found, or null if it wasn't.
-     */
-    protected Location findFoodSource(Field field)
-    {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        Location foodLocation = null;
-        while(foodLocation == null && it.hasNext()) {
-            Location loc = it.next();
-            Entity entity = field.getEntityAt(loc);
-            if(entity != null && isFood(entity)) {
-                if(entity.isAlive()) {
-                    entity.setDead();
-                    foodLevel = getFoodValue();
-                    foodLocation = loc;
-                }
-            }
-        }
-        return foodLocation;
     }
 
     /**
@@ -144,22 +106,49 @@ public abstract class Animal extends Entity
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
-    protected void giveBirth(Field nextFieldState, List<Location> freeLocations)
+    protected void giveBirth(Field nextFieldState, List<Location> adjacentLocations, List<Location> freeLocations)
     {
-        // New trexes are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        if (!foundMate(freeLocations)) {
+        List<Location> breedingLocations = new ArrayList<>();
+        for (Location breedingLocation : adjacentLocations) {
+            if (nextFieldState.getEntityAt(breedingLocation) != null) {
+                breedingLocations.add(breedingLocation);
+            }
+        }
+
+        if (!foundMate(breedingLocations)) {
             return;
         }
 
         int births = breed();
         if(births > 0) {
-            for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
+            for (int b = 0; b < births && !freeLocations.isEmpty(); b++){
                 Location loc = freeLocations.remove(0);
                 Animal young = createOffspring(loc);
                 nextFieldState.placeEntity(young, loc);
             }
         }
+    }
+
+    /**
+     * Check if there are any animals of the opposite gender amongst the adjacent squares.
+     * If not, the animal can't breed.
+     * @return
+     */
+    protected boolean foundMate(List<Location> breedingLocations) {
+        Iterator<Location> iterator = breedingLocations.iterator();
+
+        while (iterator.hasNext()){
+            Location location = iterator.next();
+            Entity entity = field.getEntityAt(location);
+
+            if (entity instanceof Animal other) {
+
+                if (other.isAlive() && this.getClass() == entity.getClass() && this.gender != other.getGender()) {
+                    return true;
+                } 
+            }
+        }
+        return false;
     }
 
     /**
@@ -189,39 +178,40 @@ public abstract class Animal extends Entity
     }
 
     /**
-     * Check if there are any animals of the opposite gender amongst the adjacent squares.
-     * If not, the animal can't breed.
-     * @return
+     * Attempt to find food in adjacent squares.
+     * If none is found, then return a free location (if there are any).
      */
-    protected boolean foundMate(List<Location> freeLocations) {
-        Iterator<Location> iterator = freeLocations.iterator();
+    public Location findFood(Field currentField, List<Location> adjacentLocations, List<Location> freeLocations) {
+        Location nextLocation = findFoodSource(currentField, adjacentLocations);
+        if(nextLocation == null && ! freeLocations.isEmpty()) {
+            // No food found - try to move to a free location.
+            nextLocation = freeLocations.remove(0);
+        }
+        return nextLocation;
+    }
 
-        while (iterator.hasNext()){
-            Location location = iterator.next();
-            Entity entity = field.getEntityAt(location);
-
-            if (entity == null) {
-                iterator.remove();
-                continue;
-            }
-
-            if (entity instanceof Animal) {
-                Animal animal = (Animal) entity;
-                
-                if (gender == Gender.MALE && animal.getGender() == Gender.FEMALE) {
-                    continue;
-                } 
-                else {
-                    iterator.remove();
+    /**
+     * Look for a valid food entity in the adjacent squares. (prey or plant)
+     * If found, eat animal by setting it to dead and update the animal's food level.
+     * @param field The field currently occupied.
+     * @return Where food was found, or null if it wasn't.
+     */
+    protected Location findFoodSource(Field field, List<Location> adjacentLocations)
+    {
+        Iterator<Location> it = adjacentLocations.iterator();
+        Location foodLocation = null;
+        while(foodLocation == null && it.hasNext()) {
+            Location loc = it.next();
+            Entity entity = field.getEntityAt(loc);
+            if(entity != null && isFood(entity)) {
+                if(entity.isAlive()) {
+                    entity.setDead();
+                    foodLevel = getFoodValue();
+                    foodLocation = loc;
                 }
             }
         }
-        if (freeLocations.isEmpty()) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return foodLocation;
     }
 
     @Override
