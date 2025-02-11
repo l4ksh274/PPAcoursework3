@@ -90,8 +90,8 @@ public abstract class Animal extends Entity
             incrementHunger();
             if(isAlive()) {
                 if (rand.nextFloat() < moveProbability) {
-                    List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
                     List<Location> adjacentLocations = nextFieldState.getAdjacentLocations(getLocation());
+                    List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
 
                     // There is a free location and the random number generator falls within the breeding chance.
                     if (!freeLocations.isEmpty() && rand.nextFloat() < getBreedingProbabilityMultiplier()) {
