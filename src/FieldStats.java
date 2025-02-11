@@ -106,11 +106,13 @@ public class FieldStats
         reset();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                Animal animal = field.getAnimalAt(new Location(row, col));
-                if(animal != null) {
-                    incrementCount(animal.getClass());
-                    for (Disease disease : animal.getDiseases()){
-                        incrementCount(disease.getClass());
+                Entity entity = field.getEntityAt(new Location(row, col));
+                if(entity != null) {
+                    incrementCount(entity.getClass());
+                    if (entity instanceof Animal animal) {
+                        for (Disease disease : animal.getDiseases()){
+                            incrementCount(disease.getClass());
+                        }
                     }
                 }
             }

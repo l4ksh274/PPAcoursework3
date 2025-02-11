@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Common elements of all animals in the simulation
@@ -9,12 +8,8 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
  */
-public abstract class Animal
+public abstract class Animal extends Entity
 {
-    // Whether the animal is alive or not.
-    private boolean alive;
-    // The animal's position.
-    private Location location;
     // The diseases the animal is infected with
     private List<Disease> diseases;
     // Probability of the affected entity dying.
@@ -23,8 +18,13 @@ public abstract class Animal
     private float breedingProbabilityMultiplier;
 
 
-    // The animal's age
-    protected int age;
+    // The predator's food level, which is increased by eating their prey.
+    protected int foodLevel;
+    // The animal's gender
+    protected Gender gender;
+    // Reference to the field
+    protected Field field;
+
     // The base hour that the animal will go to sleep at.
     protected int sleepHour;
     // The base hour that the animal wakes up at.
@@ -33,22 +33,21 @@ public abstract class Animal
     protected int timeOffset;
     // Whether the animal is sleeping or not.
     protected boolean sleeping;
-    // Random class
-    protected static Random rand = Randomizer.getRandom();
-    // The probability that the animal will move.
+    // The probability that the animal will move
     protected float moveProbability;
 
     /**
      * Constructor for objects of class Animal. Randomly assigns sleeping parameters.
      * @param location The animal's location.
      */
-    public Animal(Location location)
+    public Animal(Location location, Field field)
     {
-        this.alive = true;
+        super(location, field);
+        this.field = field;
+        this.gender = Gender.randomGender();
         this.sleeping = false;
-        this.location = location;
-        this.sleepHour = rand.nextInt(6) + 18;
-        this.wakeHour = rand.nextInt(18);
+        this.sleepHour = rand.nextInt(24);
+        this.wakeHour = rand.nextInt(24);
         this.timeOffset = rand.nextInt(5);
         diseases = new ArrayList<>();
         moveProbability = 1f;
@@ -63,88 +62,128 @@ public abstract class Animal
      * @param wakeHour The animal's waking hour
      * @param timeOffset The animal's deviation from their sleeping parameters
      */
-    public Animal(Location location, int sleepHour, int wakeHour, int timeOffset)
+    public Animal(Location location, Field field, int sleepHour, int wakeHour, int timeOffset)
     {
-        this(location);
+        this(location, field);
+        this.field = field;
+        this.gender = Gender.randomGender();
         this.sleepHour = sleepHour;
         this.wakeHour = wakeHour;
         this.timeOffset = timeOffset;
     }
 
     /**
-     * Act.
+     * Perform this animal's actions for one step:
+     * increment age / hunger, possibly breed, move or die of overcrowding
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
      * @param day The day of the new state.
      * @param hour The hour of the day of the new state.
      */
-    abstract public void act(Field currentField, Field nextFieldState, int day, int hour);
-    
-    /**
-     * Check whether the animal is alive or not.
-     * @return true if the animal is still alive.
-     */
-    public boolean isAlive()
+    public void act(Field currentField, Field nextFieldState, int day, int hour)
     {
-        return alive;
+        checkMortality(nextFieldState);
+        updateSleeping(hour, getSleepChangeProbability());
+        incrementAge();
+        
+        if (!sleeping) {
+            incrementHunger();
+            if(isAlive()) {
+                if (rand.nextFloat() < moveProbability) {
+                    List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
+                    List<Location> adjacentLocations = nextFieldState.getAdjacentLocations(getLocation());
+
+                    // There is a free location and the random number generator falls within the breeding chance.
+                    if (!freeLocations.isEmpty() && rand.nextFloat() < getBreedingProbabilityMultiplier()) {
+                        giveBirth(nextFieldState, adjacentLocations, freeLocations);
+                    }
+            
+                    // Move towards a source of food if found.
+                    Location nextLocation = findFood(currentField, adjacentLocations);
+                    if (nextLocation == null && !freeLocations.isEmpty()) {
+                        // No food found - try to move to a free location.
+                        nextLocation = freeLocations.remove(0);
+                    }
+            
+                    // See if it was possible to move.
+                    if(nextLocation != null) {
+                        setLocation(nextLocation);
+                        nextFieldState.placeEntity(this, nextLocation);
+                    }
+                    else {
+                        // Overcrowding.
+                        setDead();
+                    }
+                }
+                else {
+                    nextFieldState.placeEntity(this, getLocation());
+                }
+            }
+        else {
+            nextFieldState.placeEntity(this, getLocation());
+        }
+        }
     }
 
     /**
-     * Indicate that the animal is no longer alive.
+     * Increment hunger by 1. The animal may die if their hunger falls below 0.
      */
-    protected void setDead()
+    protected void incrementHunger()
     {
-        alive = false;
-        location = null;
-    }
-    
-    /**
-     * Return the animal's location.
-     * @return The animal's location.
-     */
-    public Location getLocation()
-    {
-        return location;
-    }
-    
-    /**
-     * Set the animal's location.
-     * @param location The new location.
-     */
-    protected void setLocation(Location location)
-    {
-        this.location = location;
-    }
-
-    /**
-     * Increase the age.
-     * This could result in the animal's death.
-     */
-    protected void incrementAge()
-    {
-        age++;
-        if(age > getMaxAge()) {
+        foodLevel--;
+        if(foodLevel <= 0) {
             setDead();
         }
     }
 
     /**
-     * Check whether this trex is to give birth at this step.
+     * If a mate is found, attempt to give birth into adjacent free squares
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
-    protected void giveBirth(Field nextFieldState, List<Location> freeLocations)
+    protected void giveBirth(Field nextFieldState, List<Location> adjacentLocations, List<Location> freeLocations)
     {
-        // New trexes are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        int births = breed();
-        if(births > 0) {
-            for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
-                Location loc = freeLocations.remove(0);
-                Animal young = createOffspring(loc);
-                nextFieldState.placeAnimal(young, loc);
+        List<Location> breedingLocations = new ArrayList<>();
+        for (Location breedingLocation : adjacentLocations) {
+            if (nextFieldState.getEntityAt(breedingLocation) != null) {
+                breedingLocations.add(breedingLocation);
             }
         }
+
+        if (!foundMate(breedingLocations)) {
+            return;
+        }
+
+        int births = breed();
+        if(births > 0) {
+            for (int b = 0; b < births && !freeLocations.isEmpty(); b++){
+                Location loc = freeLocations.remove(0);
+                Animal young = createOffspring(loc);
+                nextFieldState.placeEntity(young, loc);
+            }
+        }
+    }
+
+    /**
+     * Check if there are any animals of the opposite gender amongst the adjacent squares.
+     * If not, the animal can't breed.
+     * @return
+     */
+    protected boolean foundMate(List<Location> breedingLocations) {
+        Iterator<Location> iterator = breedingLocations.iterator();
+
+        while (iterator.hasNext()){
+            Location location = iterator.next();
+            Entity entity = field.getEntityAt(location);
+
+            if (entity instanceof Animal other) {
+
+                if (other.isAlive() && this.getClass() == entity.getClass() && this.gender != other.getGender()) {
+                    return true;
+                } 
+            }
+        }
+        return false;
     }
 
     /**
@@ -165,7 +204,7 @@ public abstract class Animal
     }
 
     /**
-     * A rabbit can breed if it has reached the breeding age.
+     * Check if this animal is old enough to breed.
      * @return true if the rabbit can breed, false otherwise.
      */
     protected boolean canBreed()
@@ -173,15 +212,77 @@ public abstract class Animal
         return age >= getBreedingAge();
     }
 
-    protected abstract int getMaxAge();
+    /**
+     * Look for a valid food entity in the adjacent squares. (prey or plant)
+     * If found, eat animal by setting it to dead and update the animal's food level.
+     * @param field The field currently occupied.
+     * @return Where food was found, or null if it wasn't.
+     */
+    protected Location findFood(Field field, List<Location> adjacentLocations)
+    {
+        Iterator<Location> it = adjacentLocations.iterator();
+        Location foodLocation = null;
+        while(foodLocation == null && it.hasNext()) {
+            Location loc = it.next();
+            Entity entity = field.getEntityAt(loc);
+            if(entity != null && isFood(entity)) {
+                if(entity.isAlive()) {
+                    entity.setDead();
+                    foodLevel = getFoodValue();
+                    foodLocation = loc;
+                }
+            }
+        }
+        return foodLocation;
+    }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +
+                "age=" + age +
+                ", alive=" + isAlive() +
+                ", location=" + getLocation() +
+                ", foodLevel=" + foodLevel +
+                '}';
+    }
+
+    /**
+     * @return Proability that this animal can breed successfully.
+     */
     protected abstract double getBreedingProbability();
 
+    /**
+     * @return Maximum number of offspring in a single birth event.
+     */
     protected abstract int getMaxLitterSize();
 
+    /**
+     * @return Minumum age for animal to start breeding.
+     */
     protected abstract int getBreedingAge();
 
+    /**
+     * @param loc The location for the offspring to be born at.
+     * @return A new instance of the animal as an offspring at the given location.
+     */
     protected abstract Animal createOffspring(Location loc);
+
+    /**
+     * @return How much hunger is restored when this animal eats its food.
+     */
+    protected abstract int getFoodValue();
+    
+    /**
+     * @return true if the given entity is valid food for this animal, else false.
+     */
+    protected abstract boolean isFood(Entity entity);
+
+    /**
+     * @return The Gender (MALE/FEMALE) of this animal.
+     */
+    protected Gender getGender() {
+        return gender;
+    }
 
     /**
      * Gets the base sleep hour of the animal.
@@ -292,8 +393,9 @@ public abstract class Animal
         breedingProbabilityMultiplier *= changeProbability;
     }
 
-    public float getBreedingProbabilityMulitplier() {
+    public float getBreedingProbabilityMultiplier() {
         return breedingProbabilityMultiplier;
     }
 
+    public abstract double getSleepChangeProbability();
 }

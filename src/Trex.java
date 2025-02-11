@@ -9,16 +9,16 @@ public class Trex extends Predator
 {
     // Characteristics shared by all trexes (class variables).
     // The age at which a trex can start to breed.
-    private static final int BREEDING_AGE = 15;
+    private static final int BREEDING_AGE = 35;
     // The age to which a trex can live.
     private static final int MAX_AGE = 150;
     // The likelihood of a trex breeding.
-    private static final double BREEDING_PROBABILITY = 0.20;
+    private static final double BREEDING_PROBABILITY = 0.5;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
+    private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single ankylosaurus. In effect, this is the
     // number of steps a trex can go before it has to eat again.
-    private static final int ANKYLOSAURUS_FOOD_VALUE = 9;
+    private static final int ANKYLOSAURUS_FOOD_VALUE = 100;
     
     // Individual characteristics (instance fields).
     
@@ -29,9 +29,9 @@ public class Trex extends Predator
      * @param randomAge If true, the trex will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Trex(boolean randomAge, Location location)
+    public Trex(boolean randomAge, Location location, Field field)
     {
-        super(location);
+        super(location, field);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -44,6 +44,11 @@ public class Trex extends Predator
     @Override
     protected int getMaxAge(){
         return MAX_AGE;
+    }
+
+    @Override
+    protected int getAge() {
+        return age;
     }
     
     @Override
@@ -68,11 +73,11 @@ public class Trex extends Predator
     
     @Override
     protected Animal createOffspring(Location loc) {
-        return new Trex(false, loc);
+        return new Trex(false, loc, field);
     }
     
     @Override
-    protected boolean isPrey(Animal animal) {
-        return animal instanceof Ankylosaurus;
+    protected boolean isFood(Entity entity) {
+        return entity instanceof Ankylosaurus;
     }
 }

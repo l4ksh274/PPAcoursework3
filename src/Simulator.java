@@ -15,16 +15,19 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a Trex will be created in any given grid position.
-    private static final double TREX_CREATION_PROBABILITY = 0.02;
+    private static final double TREX_CREATION_PROBABILITY = 0.01;
     // The probability that an Ankylosaurus will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.04;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.2;
     // The probability that an allosaurus will be created in any given grid position.
-    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.05;
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.01;
     // The probability that a dodo will be created in any given position.
-    private static final double DODO_CREATION_PROBABILITY = 0.02;
+    private static final double DODO_CREATION_PROBABILITY = 0.4;
     // The probability that a raptor will be created in any given position.
     private static final double RAPTOR_CREATION_PROBABILITY = 0.02;
-
+    // The probability that a berry will be created in a given position.
+    private static final double BERRY_CREATION_PROBABILITY = 0.6;
+    // The probability that a conifer will be created in a given position.
+    private static final double CONIFER_CREATION_PROBABILITY = 0.6;
     // The probability that an animal spawns with Influenza
     private static final double INFLUENZA_PROBABILITY = 0.015;
     // The probability that an animal spawns with Chlamydia
@@ -92,7 +95,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps && field.isViable(); n++) {
             simulateOneStep();
-            delay(50);         // adjust this to change execution speed
+            delay(50);         // adjust this to change execution speed (usually 50)
         }
     }
     
@@ -116,9 +119,9 @@ public class Simulator
         // the next step.
         Field nextFieldState = new Field(field.getDepth(), field.getWidth());
 
-        List<Animal> animals = field.getAnimals();
-        for (Animal anAnimal : animals) {
-            anAnimal.act(field, nextFieldState, day, hour);
+        List<Entity> entities = field.getEntities();
+        for (Entity anEntity : entities) {
+            anEntity.act(field, nextFieldState, day, hour);
         }
         
         // Replace the old state with the new one.
@@ -150,34 +153,44 @@ public class Simulator
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
                 Animal animal = null;
+                Plant plant = null;
                 if(rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Trex(true, location);
-                    field.placeAnimal(animal, location);
+                    animal = new Trex(true, location, field);
+                    field.placeEntity(animal, location);
 
                 }else if(rand.nextDouble() <= ALLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Allosaurus(true, location);
-                    field.placeAnimal(animal, location);
+                    animal = new Allosaurus(true, location, field);
+                    field.placeEntity(animal, location);
 
                 }else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Ankylosaurus(true, location);
-                    field.placeAnimal(animal, location);
+                    animal = new Ankylosaurus(true, location, field);
+                    field.placeEntity(animal, location);
 
                 }else if(rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Dodo(true, location);
-                    field.placeAnimal(animal, location);
+                    animal = new Dodo(true, location, field);
+                    field.placeEntity(animal, location);
 
                 }else if(rand.nextDouble() <= RAPTOR_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Raptor(true, location);
-                    field.placeAnimal(animal, location);
+                    animal = new Raptor(true, location, field);
+                    field.placeEntity(animal, location);
+                }else if(rand.nextDouble() <= BERRY_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    plant = new Berry(true, location, field);
+                    field.placeEntity(plant, location);
+                }else if(rand.nextDouble() <= CONIFER_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    plant = new Conifer(true, location, field);
+                    field.placeEntity(plant, location);
                 }
+
                 // else leave the location empty.
                 // Chance to infect the animal with diseases
-                if (animal != null ) {
+                if (animal != null) {
                     if (rand.nextDouble() <= INFLUENZA_PROBABILITY) {
                         animal.infect(new Influenza());
                     }
@@ -194,7 +207,7 @@ public class Simulator
     }
 
     /**
-     * Report on the number of each type of animal in the field.
+     * Report on the number of each type of entity in the field.
      */
     public void reportStats()
     {

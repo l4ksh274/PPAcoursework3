@@ -8,18 +8,18 @@ public class Raptor extends Predator
 {
     // Characteristics shared by all raptors (class variables)
     // The age to which a raptor can start to breed
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 25;
     // The age to which a raptor can live
     private static final int MAX_AGE = 50;
     // The likelihood of a raptor breeding
-    private static final double BREEDING_PROBABILITY = 0.20;
+    private static final double BREEDING_PROBABILITY = 0.3;
     // The maximum number of births
-    private static final int MAX_LITTER_SIZE = 5;
+    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single dodo
-    private static final int DODO_FOOD_VALUE = 7;
+    private static final int DODO_FOOD_VALUE = 100;
     
-    public Raptor(boolean randomAge, Location location){
-        super(location);
+    public Raptor(boolean randomAge, Location location, Field field){
+        super(location, field);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -32,6 +32,11 @@ public class Raptor extends Predator
     @Override
     protected int getMaxAge(){
         return MAX_AGE;
+    }
+
+    @Override
+    protected int getAge() {
+        return age;
     }
     
     @Override
@@ -56,16 +61,11 @@ public class Raptor extends Predator
     
     @Override
     protected Animal createOffspring(Location loc) {
-        return new Raptor(false, loc);
+        return new Raptor(false, loc, field);
     }
     
     @Override
-    protected boolean isPrey(Animal animal) {
-        if(animal instanceof Dodo) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    protected boolean isFood(Entity entity) {
+        return entity instanceof Dodo;
     }
 }
