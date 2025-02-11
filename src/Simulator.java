@@ -28,7 +28,7 @@ public class Simulator
     // The probability that an animal spawns with Influenza
     private static final double INFLUENZA_PROBABILITY = 0.015;
     // The probability that an animal spawns with Chlamydia
-    private static final double CHLAMYDIA_PROBABILITY = 0.015;
+    private static final double CHLAMYDIA_PROBABILITY = 0.01;
     // The probability that an animal spawns with Salmonella
     private static final double SALMONELLA_PROBABILITY = 0.015;
 
