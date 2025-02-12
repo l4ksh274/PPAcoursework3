@@ -64,12 +64,16 @@ public abstract class Animal extends Entity
      */
     public Animal(Location location, Field field, int sleepHour, int wakeHour, int timeOffset)
     {
-        this(location, field);
+        super(location, field);
         this.field = field;
         this.gender = Gender.randomGender();
         this.sleepHour = sleepHour;
         this.wakeHour = wakeHour;
         this.timeOffset = timeOffset;
+        diseases = new ArrayList<>();
+        moveProbability = 1f;
+        mortalityProbability = 0;
+        breedingProbabilityMultiplier = 1f;
     }
 
     /**
