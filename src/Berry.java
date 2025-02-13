@@ -1,14 +1,14 @@
 public class Berry extends Plant {
     
     // Berry matures and can be eaten
-    private static final int RIPE_AGE = 50;
+    private static final int RIPE_AGE = 20;
     // Berry's chance of seeds sprouting when parent berry dies
     private static final double SEED_SPROUT_PROBABILITY = 0.9;
 
     private static final int MAX_AGE = 700;
 
-    public Berry(Boolean randomAge, Location location, Field field) {
-        super(location, field);
+    public Berry(Boolean randomAge, Location location) {
+        super(location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -38,6 +38,6 @@ public class Berry extends Plant {
 
     @Override
     protected Plant createOffspring(Location seedSproutLocation) {
-        return new Berry(false, seedSproutLocation, field);
+        return new Berry(false, seedSproutLocation);
     }
 }

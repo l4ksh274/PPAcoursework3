@@ -22,8 +22,6 @@ public abstract class Animal extends Entity
     protected int foodLevel;
     // The animal's gender
     protected Gender gender;
-    // Reference to the field
-    protected Field field;
 
     // The base hour that the animal will go to sleep at.
     protected int sleepHour;
@@ -40,10 +38,9 @@ public abstract class Animal extends Entity
      * Constructor for objects of class Animal. Randomly assigns sleeping parameters.
      * @param location The animal's location.
      */
-    public Animal(Location location, Field field)
+    public Animal(Location location)
     {
-        super(location, field);
-        this.field = field;
+        super(location);
         this.gender = Gender.randomGender();
         this.sleeping = false;
         this.sleepHour = rand.nextInt(24);
@@ -62,10 +59,9 @@ public abstract class Animal extends Entity
      * @param wakeHour The animal's waking hour
      * @param timeOffset The animal's deviation from their sleeping parameters
      */
-    public Animal(Location location, Field field, int sleepHour, int wakeHour, int timeOffset)
+    public Animal(Location location, int sleepHour, int wakeHour, int timeOffset)
     {
-        this(location, field);
-        this.field = field;
+        this(location);
         this.gender = Gender.randomGender();
         this.sleepHour = sleepHour;
         this.wakeHour = wakeHour;
@@ -95,7 +91,7 @@ public abstract class Animal extends Entity
 
                     // There is a free location and the random number generator falls within the breeding chance.
                     if (!freeLocations.isEmpty() && rand.nextFloat() < getBreedingProbabilityMultiplier()) {
-                        giveBirth(nextFieldState, adjacentLocations, freeLocations);
+                        giveBirth(currentField, nextFieldState, adjacentLocations, freeLocations);
                     }
             
                     // Move towards a source of food if found.
@@ -119,9 +115,8 @@ public abstract class Animal extends Entity
                     nextFieldState.placeEntity(this, getLocation());
                 }
             }
-        else {
+        }   else {
             nextFieldState.placeEntity(this, getLocation());
-        }
         }
     }
 
@@ -141,7 +136,7 @@ public abstract class Animal extends Entity
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
-    protected void giveBirth(Field nextFieldState, List<Location> adjacentLocations, List<Location> freeLocations)
+    protected void giveBirth(Field currentField, Field nextFieldState, List<Location> adjacentLocations, List<Location> freeLocations)
     {
         List<Location> breedingLocations = new ArrayList<>();
         for (Location breedingLocation : adjacentLocations) {
@@ -150,7 +145,7 @@ public abstract class Animal extends Entity
             }
         }
 
-        if (!foundMate(breedingLocations)) {
+        if (!foundMate(currentField, breedingLocations)) {
             return;
         }
 
@@ -169,7 +164,7 @@ public abstract class Animal extends Entity
      * If not, the animal can't breed.
      * @return
      */
-    protected boolean foundMate(List<Location> breedingLocations) {
+    protected boolean foundMate(Field field, List<Location> breedingLocations) {
         Iterator<Location> iterator = breedingLocations.iterator();
 
         while (iterator.hasNext()){

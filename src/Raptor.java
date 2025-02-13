@@ -8,18 +8,18 @@ public class Raptor extends Predator
 {
     // Characteristics shared by all raptors (class variables)
     // The age to which a raptor can start to breed
-    private static final int BREEDING_AGE = 25;
+    private static final int BREEDING_AGE = 5;
     // The age to which a raptor can live
     private static final int MAX_AGE = 50;
     // The likelihood of a raptor breeding
-    private static final double BREEDING_PROBABILITY = 0.3;
+    private static final double BREEDING_PROBABILITY = 0.21;
     // The maximum number of births
-    private static final int MAX_LITTER_SIZE = 4;
+    private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single dodo
-    private static final int DODO_FOOD_VALUE = 100;
+    private static final int DODO_FOOD_VALUE = 21;
     
-    public Raptor(boolean randomAge, Location location, Field field){
-        super(location, field);
+    public Raptor(boolean randomAge, Location location){
+        super(location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -61,7 +61,7 @@ public class Raptor extends Predator
     
     @Override
     protected Animal createOffspring(Location loc) {
-        return new Raptor(false, loc, field);
+        return new Raptor(false, loc);
     }
     
     @Override

@@ -9,16 +9,16 @@ public class Ankylosaurus extends Prey
 {
     // Characteristics shared by all ankylosaurus' (class variables).
     // The age at which a ankylosaurus can start to breed.
-    private static final int BREEDING_AGE = 8;
+    private static final int BREEDING_AGE = 3;
     // The age to which a ankylosaurus can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a ankylosaurus breeding.
-    private static final double BREEDING_PROBABILITY = 0.8;
+    private static final double BREEDING_PROBABILITY = 0.85;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 5;
+    private static final int MAX_LITTER_SIZE = 7;
     // The food value of a single Berry. In effect, this is the
     // number of steps a trex can go before it has to eat again.
-    private static final int BERRY_FOOD_VALUE = 100;
+    private static final int BERRY_FOOD_VALUE = 15;
     
     // Individual characteristics (instance fields).
     
@@ -29,9 +29,9 @@ public class Ankylosaurus extends Prey
      * @param randomAge If true, the ankylosaurus will have a random age.
      * @param location The location within the field.
      */
-    public Ankylosaurus(boolean randomAge, Location location, Field field)
+    public Ankylosaurus(boolean randomAge, Location location)
     {
-        super(location, field);
+        super(location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -73,7 +73,7 @@ public class Ankylosaurus extends Prey
     
     @Override
     protected Animal createOffspring(Location loc) {
-        return new Ankylosaurus(false, loc, field);
+        return new Ankylosaurus(false, loc);
     }
 
     @Override

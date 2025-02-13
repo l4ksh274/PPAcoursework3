@@ -7,8 +7,8 @@ public class Conifer extends Plant {
 
     private static final int MAX_AGE = 700;
 
-    public Conifer(Boolean randomAge, Location location, Field field) {
-        super(location, field);
+    public Conifer(Boolean randomAge, Location location) {
+        super(location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -38,6 +38,6 @@ public class Conifer extends Plant {
 
     @Override
     protected Plant createOffspring(Location seedSproutLocation) {
-        return new Conifer(false, seedSproutLocation, field);
+        return new Conifer(false, seedSproutLocation);
     }
 }

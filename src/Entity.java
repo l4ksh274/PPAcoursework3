@@ -11,7 +11,7 @@ public abstract class Entity {
     // Random class
     protected static Random rand = Randomizer.getRandom();
 
-    public Entity(Location location, Field field) {
+    public Entity(Location location) {
         this.alive = true;
         this.location = location;
     }

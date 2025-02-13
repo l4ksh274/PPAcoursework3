@@ -8,19 +8,19 @@ public class Allosaurus extends Predator
 {
     // Characteristics shared by all allosaurus'
     // The age at which an allosaurus can start to breed.
-    private static final int BREEDING_AGE = 30;
+    private static final int BREEDING_AGE = 6;
     // The age of which an allosaurus can live
     private static final int MAX_AGE = 160;
     // The likelihood of an allosaurus breeding 
-    private static final double BREEDING_PROBABILITY = 0.5;
+    private static final double BREEDING_PROBABILITY = 0.22;
     // The maximum number of births
-    private static final int MAX_LITTER_SIZE = 3;
+    private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single ankylosaurus. In effect, this is the
     // number of steps a trex can go before it has to eat again.
-    private static final int ANKYLOSAURUS_FOOD_VALUE = 100;
+    private static final int ANKYLOSAURUS_FOOD_VALUE = 25;
     
-    public Allosaurus(boolean randomAge, Location location, Field field) {
-        super(location, field);
+    public Allosaurus(boolean randomAge, Location location) {
+        super(location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -62,7 +62,7 @@ public class Allosaurus extends Predator
     
     @Override
     protected Animal createOffspring(Location loc) {
-        return new Allosaurus(false, loc, field);
+        return new Allosaurus(false, loc);
     }
     
     @Override

@@ -7,18 +7,14 @@ public abstract class Plant extends Entity {
 
     // Location where the plant's seeds will attempt to sprout after it dies.
     protected Location seedSproutLocation;
-    // Reference to the field the plant exists in
-    protected Field field;
 
     /**
      * Constructor to initialise a plant at a given location within the field
      * @param location The initial location of the plant.
-     * @param field The field where the plant exists.
      */
-    public Plant(Location location, Field field) {
-        super(location, field);
+    public Plant(Location location) {
+        super(location);
         this.seedSproutLocation = location;
-        this.field = field;
     }
 
     /*

@@ -15,19 +15,19 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a Trex will be created in any given grid position.
-    private static final double TREX_CREATION_PROBABILITY = 0.01;
+    private static final double TREX_CREATION_PROBABILITY = 0.08;
     // The probability that an Ankylosaurus will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.2;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3;
     // The probability that an allosaurus will be created in any given grid position.
-    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.01;
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.07;
     // The probability that a dodo will be created in any given position.
-    private static final double DODO_CREATION_PROBABILITY = 0.4;
+    private static final double DODO_CREATION_PROBABILITY = 0.2;
     // The probability that a raptor will be created in any given position.
-    private static final double RAPTOR_CREATION_PROBABILITY = 0.02;
+    private static final double RAPTOR_CREATION_PROBABILITY = 0.08;
     // The probability that a berry will be created in a given position.
-    private static final double BERRY_CREATION_PROBABILITY = 0.6;
+    private static final double BERRY_CREATION_PROBABILITY = 0.05;
     // The probability that a conifer will be created in a given position.
-    private static final double CONIFER_CREATION_PROBABILITY = 0.6;
+    private static final double CONIFER_CREATION_PROBABILITY = 0.03;
     // The probability that an animal spawns with Influenza
     private static final double INFLUENZA_PROBABILITY = 0.015;
     // The probability that an animal spawns with Chlamydia
@@ -156,35 +156,35 @@ public class Simulator
                 Plant plant = null;
                 if(rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Trex(true, location, field);
+                    animal = new Trex(true, location);
                     field.placeEntity(animal, location);
 
                 }else if(rand.nextDouble() <= ALLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Allosaurus(true, location, field);
+                    animal = new Allosaurus(true, location);
                     field.placeEntity(animal, location);
 
                 }else if(rand.nextDouble() <= ANKYLOSAURUS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Ankylosaurus(true, location, field);
+                    animal = new Ankylosaurus(true, location);
                     field.placeEntity(animal, location);
 
                 }else if(rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Dodo(true, location, field);
+                    animal = new Dodo(true, location);
                     field.placeEntity(animal, location);
 
                 }else if(rand.nextDouble() <= RAPTOR_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    animal = new Raptor(true, location, field);
+                    animal = new Raptor(true, location);
                     field.placeEntity(animal, location);
                 }else if(rand.nextDouble() <= BERRY_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    plant = new Berry(true, location, field);
+                    plant = new Berry(true, location);
                     field.placeEntity(plant, location);
                 }else if(rand.nextDouble() <= CONIFER_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    plant = new Conifer(true, location, field);
+                    plant = new Conifer(true, location);
                     field.placeEntity(plant, location);
                 }
 

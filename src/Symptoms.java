@@ -81,14 +81,13 @@ public enum Symptoms implements ISymptom {
         // Searches all neighbouring cells for alive animals and spreads diseases that have the cough symptom.
         for (Location location : locationList) {
             Entity neighbouringEntity = nextFieldState.getEntityAt(location);
-            if (neighbouringEntity instanceof Animal neighbouringAnimal) {
-                if (neighbouringAnimal != null && neighbouringAnimal.isAlive()) {
-                    for (Disease disease : animal.getDiseases()){
-                        if (disease.getSymptoms().contains(this)){
-                            neighbouringAnimal.infect(disease);
-                        }
+            if (neighbouringEntity instanceof Animal neighbouringAnimal && neighbouringAnimal.isAlive()) {
+                for (Disease disease : animal.getDiseases()){
+                    if (disease.getSymptoms().contains(this)){
+                        neighbouringAnimal.infect(disease);
                     }
                 }
+
             }
         }
     }
