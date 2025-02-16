@@ -12,7 +12,7 @@ public class Dodo extends Prey
     // The age to which a ankylosaurus can live
     private static final int MAX_AGE = 40;
     // The likelihood of a dodo breeding
-    private static final double BREEDING_PROBABILITY = 0.8;
+    private static final double BREEDING_PROBABILITY = 0.7;
     // The maximum number of births
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single Conifer. In effect, this is the

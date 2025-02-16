@@ -17,13 +17,13 @@ public class Simulator
     // The probability that a Trex will be created in any given grid position.
     private static final double TREX_CREATION_PROBABILITY = 0.08;
     // The probability that an Ankylosaurus will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.7;
     // The probability that an allosaurus will be created in any given grid position.
     private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.07;
     // The probability that a dodo will be created in any given position.
     private static final double DODO_CREATION_PROBABILITY = 0.2;
     // The probability that a raptor will be created in any given position.
-    private static final double RAPTOR_CREATION_PROBABILITY = 0.08;
+    private static final double RAPTOR_CREATION_PROBABILITY = 0.2;
     // The probability that a berry will be created in a given position.
     private static final double BERRY_CREATION_PROBABILITY = 0.05;
     // The probability that a conifer will be created in a given position.

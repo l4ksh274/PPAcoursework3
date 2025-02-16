@@ -12,7 +12,7 @@ public class Raptor extends Predator
     // The age to which a raptor can live
     private static final int MAX_AGE = 50;
     // The likelihood of a raptor breeding
-    private static final double BREEDING_PROBABILITY = 0.21;
+    private static final double BREEDING_PROBABILITY = 0.3;
     // The maximum number of births
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single dodo
