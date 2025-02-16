@@ -66,6 +66,10 @@ public abstract class Animal extends Entity
         this.sleepHour = sleepHour;
         this.wakeHour = wakeHour;
         this.timeOffset = timeOffset;
+        diseases = new ArrayList<>();
+        moveProbability = 1f;
+        mortalityProbability = 0;
+        breedingProbabilityMultiplier = 1f;
     }
 
     /**
