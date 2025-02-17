@@ -1,23 +1,30 @@
 /**
- * Write a description of class Raptor here.
+ * A simple model of a raptor
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
  */
 public class Raptor extends Predator
 {
     // Characteristics shared by all raptors (class variables)
-    // The age to which a raptor can start to breed
+    // The age to which a raptor can start to breed.
     private static final int BREEDING_AGE = 5;
-    // The age to which a raptor can live
+    // The age to which a raptor can live.
     private static final int MAX_AGE = 50;
-    // The likelihood of a raptor breeding
+    // The likelihood of a raptor breeding.
     private static final double BREEDING_PROBABILITY = 0.3;
-    // The maximum number of births
+    // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
-    // The food value of a single dodo
+    // The food value of a single dodo. In effect, this is the 
+    // number of steps a raptor can go before it has to eat again.
     private static final int DODO_FOOD_VALUE = 21;
     
+    /**
+     * Create a raptor. A raptor can be created as a new born (age zero 
+     * and not hungry) or with a random age and food level.
+     * @param randomAge If true, the raptor will have random age and hunger level.
+     * @param location The location within the field.
+     */
     public Raptor(boolean randomAge, Location location){
         super(location);
         if(randomAge) {

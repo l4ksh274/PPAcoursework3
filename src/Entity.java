@@ -1,16 +1,28 @@
 import java.util.Random;
 
+/**
+ * Abstract class representing common elements of all entities in the simulation.
+ * This serves as a base class for all living entities, such as animals and plants.
+ * 
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
+ */
 public abstract class Entity {
     
-    // Whether the thing is alive or not.
+    // A flag indicating whether the entity is alive.
     protected boolean alive;
-    // The living thing's location.
+    // The current location of the entity.
     protected Location location;
-    // The living thing's age.
+    // The age of the entity.
     protected int age;
-    // Random class
+    // Shared random instance to generate random values.
     protected static Random rand = Randomizer.getRandom();
 
+    /**
+     * Constructor for creating an entity at a specific location.
+     * The entity is intialised to be alive.
+     * @param location
+     */
     public Entity(Location location) {
         this.alive = true;
         this.location = location;
@@ -18,7 +30,7 @@ public abstract class Entity {
 
     /**
      * Check whether the thing is alive or not.
-     * @return true if the thing is still alive.
+     * @return True if the entity is still alive.
      */
     public boolean isAlive()
     {
@@ -26,8 +38,8 @@ public abstract class Entity {
     }
 
     /**
-     * Return the thing's location.
-     * @return The thing's location.
+     * Get the current location of the entity.
+     * @return The entity's location.
      */
     public Location getLocation()
     {
@@ -35,7 +47,7 @@ public abstract class Entity {
     }
 
     /**
-     * Set the thing's location.
+     * Set the entity's location.
      * @param location The new location.
      */
     protected void setLocation(Location location)
@@ -56,7 +68,7 @@ public abstract class Entity {
     }
 
     /**
-     * Indicate that the animal is no longer alive.
+     * Indicate that the eneity is no longer alive.
      */
     protected void setDead()
     {
@@ -65,17 +77,22 @@ public abstract class Entity {
     }
 
     /**
+     * Get the maximum age of an entity before it dies.
+     * This is an abstract method which must be implemented by its subclasses.
      * @return The max age of the entity.
      */
     protected abstract int getMaxAge();
 
     /**
+     * Get the current age of the entity.
+     * This is an abstract method which must be implemented by its subclasses.
      * @return The current age of the entity.
      */
     protected abstract int getAge();
 
     /**
      * Defines the behaviour of this entity for one simulation step.
+     * This is an abstract method, which must be implemented by its subclasses.
      * @param currentField The current state of the field.
      * @param nextFieldState The updated state of the field.
      * @param day The current day of the simulation.

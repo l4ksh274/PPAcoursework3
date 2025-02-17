@@ -1,9 +1,12 @@
 /**
  * A simple model of a trex.
- * Trexes age, move, eat Trexs, and die.
+ * Trexes age, move, eat Ankylosaurus' and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
+ * 
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
  */
 public class Trex extends Predator
 {
@@ -19,8 +22,6 @@ public class Trex extends Predator
     // The food value of a single ankylosaurus. In effect, this is the
     // number of steps a trex can go before it has to eat again.
     private static final int ANKYLOSAURUS_FOOD_VALUE = 20;
-    
-    // Individual characteristics (instance fields).
     
     /**
      * Create a trex. A trex can be created as a new born (age zero

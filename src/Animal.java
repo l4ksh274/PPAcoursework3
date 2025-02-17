@@ -3,24 +3,28 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Common elements of all animals in the simulation
+ * A base class representing common elements of all animals in the simulation.
+ * Such things include aging, moving and breeding for example.
  *
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
+ * 
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
  */
 public abstract class Animal extends Entity
 {
-    // The diseases the animal is infected with
+    // The list of diseases the animal is infected with.
     private List<Disease> diseases;
-    // Probability of the affected entity dying.
+    // Probability of the affected animal dying.
     private float mortalityProbability;
-    // Probability of the entity breeding.
+    // Probability multiplier of the animal breeding.
     private float breedingProbabilityMultiplier;
 
 
-    // The predator's food level, which is increased by eating their prey.
+    // The animal's food level, which is increased by eating their respective food source.
     protected int foodLevel;
-    // The animal's gender
+    // The animal's gender.
     protected Gender gender;
 
     // The base hour that the animal will go to sleep at.
@@ -36,7 +40,7 @@ public abstract class Animal extends Entity
 
     /**
      * Constructor for objects of class Animal. Randomly assigns sleeping parameters.
-     * @param location The animal's location.
+     * @param location The animal's initial location.
      */
     public Animal(Location location)
     {
@@ -53,7 +57,7 @@ public abstract class Animal extends Entity
     }
 
     /**
-     * Constructor for objects of class Animal.
+     * Constructor for objects of class Animal with specific sleep parameters.
      * @param location The animal's location.
      * @param sleepHour The animal's sleeping hour
      * @param wakeHour The animal's waking hour
@@ -62,19 +66,14 @@ public abstract class Animal extends Entity
     public Animal(Location location, int sleepHour, int wakeHour, int timeOffset)
     {
         this(location);
-        this.gender = Gender.randomGender();
         this.sleepHour = sleepHour;
         this.wakeHour = wakeHour;
         this.timeOffset = timeOffset;
-        diseases = new ArrayList<>();
-        moveProbability = 1f;
-        mortalityProbability = 0;
-        breedingProbabilityMultiplier = 1f;
     }
 
     /**
      * Perform this animal's actions for one step:
-     * increment age / hunger, possibly breed, move or die of overcrowding
+     * check Mortality, update sleeping, increment age / hunger, possibly breed, move or die of overcrowding
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
      * @param day The day of the new state.
@@ -136,8 +135,11 @@ public abstract class Animal extends Entity
     }
 
     /**
-     * If a mate is found, attempt to give birth into adjacent free squares
+     * If a mate is found, attempt to give birth into adjacent free squares.
      * New births will be made into free adjacent locations.
+     * @param currentField The current field.
+     * @param nextFieldState The state of the next field.
+     * @param adjacentLocations The adjacent locations of the animal.
      * @param freeLocations The locations that are free in the current field.
      */
     protected void giveBirth(Field currentField, Field nextFieldState, List<Location> adjacentLocations, List<Location> freeLocations)
@@ -166,7 +168,9 @@ public abstract class Animal extends Entity
     /**
      * Check if there are any animals of the opposite gender amongst the adjacent squares.
      * If not, the animal can't breed.
-     * @return
+     * @param field The current field.
+     * @param breedingLocations A list of locations of all animals adjacent to the current animal.
+     * @return true if a mate is found.
      */
     protected boolean foundMate(Field field, List<Location> breedingLocations) {
         Iterator<Location> iterator = breedingLocations.iterator();
@@ -212,27 +216,23 @@ public abstract class Animal extends Entity
     }
 
     /**
-     * Look for a valid food entity in the adjacent squares. (prey or plant)
-     * If found, eat animal by setting it to dead and update the animal's food level.
+     * Looks for a valid food entity in the adjacent squares. 
+     * If found, the food is consumed and hunger is replenished.
      * @param field The field currently occupied.
-     * @return Where food was found, or null if it wasn't.
+     * @param adjacentLocations A list of adjacent locations to the animal.
+     * @return The location of the food found, or null if not found.
      */
     protected Location findFood(Field field, List<Location> adjacentLocations)
     {
-        Iterator<Location> it = adjacentLocations.iterator();
-        Location foodLocation = null;
-        while(foodLocation == null && it.hasNext()) {
-            Location loc = it.next();
+        for (Location loc : adjacentLocations) {
             Entity entity = field.getEntityAt(loc);
-            if(entity != null && isFood(entity)) {
-                if(entity.isAlive()) {
-                    entity.setDead();
-                    foodLevel = getFoodValue();
-                    foodLocation = loc;
-                }
+            if(entity != null && isFood(entity) && entity.isAlive()) {
+                entity.setDead();
+                foodLevel = getFoodValue();
+                return loc;
             }
         }
-        return foodLocation;
+        return null;
     }
 
     @Override
@@ -246,7 +246,7 @@ public abstract class Animal extends Entity
     }
 
     /**
-     * @return Proability that this animal can breed successfully.
+     * @return Probability that this animal can breed successfully.
      */
     protected abstract double getBreedingProbability();
 

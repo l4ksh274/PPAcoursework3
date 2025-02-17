@@ -1,30 +1,31 @@
 /**
  * A simple model of a ankylosaurus.
- * Ankylosaurus' age, move, breed, and die.
+ * Ankylosaurus' age, move, eat berries and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
+ * 
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
  */
 public class Ankylosaurus extends Prey
 {
     // Characteristics shared by all ankylosaurus' (class variables).
-    // The age at which a ankylosaurus can start to breed.
+    // The age at which an ankylosaurus can start to breed.
     private static final int BREEDING_AGE = 3;
     // The age to which a ankylosaurus can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a ankylosaurus breeding.
-    private static final double BREEDING_PROBABILITY = 0.8;
+    private static final double BREEDING_PROBABILITY = 0.7;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 6;
     // The food value of a single Berry. In effect, this is the
     // number of steps a trex can go before it has to eat again.
     private static final int BERRY_FOOD_VALUE = 12;
     
-    // Individual characteristics (instance fields).
-    
     /**
-     * Create a new ankylosaurus. A ankylosaurus may be created with age
-     * zero (a new born) or with a random age.
+     * Create a new ankylosaurus. A ankylosaurus can be created as a new born (age zero
+     * and not hungry) or with a random age and food level.
      * 
      * @param randomAge If true, the ankylosaurus will have a random age.
      * @param location The location within the field.

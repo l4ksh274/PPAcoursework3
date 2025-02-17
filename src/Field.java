@@ -31,27 +31,27 @@ public class Field
     }
 
     /**
-     * Place an animal at the given location.
-     * If there is already an animal at the location it will
+     * Place an entity at the given location.
+     * If there is already an entity at the location it will
      * be lost.
-     * @param anAnimal The animal to be placed.
+     * @param anEntity The animal to be placed.
      * @param location Where to place the animal.
      */
-    public void placeEntity(Entity aEntity, Location location)
+    public void placeEntity(Entity anEntity, Location location)
     {
         assert location != null;
         Object other = field.get(location);
         if(other != null) {
             entities.remove(other);
         }
-        field.put(location, aEntity);
-        entities.add(aEntity);
+        field.put(location, anEntity);
+        entities.add(anEntity);
     }
 
     /**
-     * Return the animal at the given location, if any.
+     * Return the entity at the given location, if any.
      * @param location Where in the field.
-     * @return The animal at the given location, or null if there is none.
+     * @return The entity at the given location, or null if there is none.
      */
     public Entity getEntityAt(Location location)
     {
@@ -114,7 +114,7 @@ public class Field
     }
 
     /**
-     * Print out the number of foxes and rabbits in the field.
+     * Print out the number of entities in the field.
      */
     public void fieldStats()
     {
@@ -147,11 +147,16 @@ public class Field
     public boolean isViable()
     {
         /*
-        Predator -> prey pairs
+        Predator -> Prey pairs
 
         Trex -> Ankylosaurus
         Allosaurus -> Ankylosaurus
         Raptor -> Dodo
+
+        Prey -> Plant pairs
+
+        Ankylosaurus -> Berry
+        Dodo -> Conifer
          */
 
         // Keeps track of the animals classes that are still on the field. A value of 1 indicates it exists.
@@ -183,7 +188,7 @@ public class Field
     }
     
     /**
-     * Get the list of animals.
+     * Get the list of entities.
      */
     public List<Entity> getEntities()
     {

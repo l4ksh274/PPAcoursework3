@@ -1,26 +1,31 @@
 /**
- * Write a description of class Triceratops here.
+ * A simple model of a dodo.
+ * Dodos age, move, eat conifers and die.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
  */
 public class Dodo extends Prey
 {
-    // Characteristics shared by all triceratops' 
-    // The age at which a triceratops can starto to breed
+    // Characteristics shared by all dodos.
+    // The age at which a dodo can start to to breed.
     private static final int BREEDING_AGE = 4;
-    // The age to which a ankylosaurus can live
+    // The age to which a dodo can live.
     private static final int MAX_AGE = 40;
-    // The likelihood of a dodo breeding
+    // The likelihood of a dodo breeding.
     private static final double BREEDING_PROBABILITY = 0.7;
-    // The maximum number of births
+    // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single Conifer. In effect, this is the
     // number of steps a dodo can go before it has to eat again.
     private static final int CONIFER_FOOD_VALUE = 11;
     
     /**
+     * Create a dodo. A dodo can be created as a new born (age zero
+     * and not hungry) or with a random age and food level.
      * 
+     * @param randomAge If true, the dodo will have a random age.
+     * @param location The location within the field.
      */
     public Dodo(boolean randomAge, Location location) {
         super(location);
