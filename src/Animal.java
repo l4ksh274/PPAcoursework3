@@ -106,7 +106,7 @@ public abstract class Animal extends Entity
                         // No food found - try to move to a free location.
                         nextLocation = freeLocations.remove(0);
                     }
-            
+             
                     // See if it was possible to move.
                     if(nextLocation != null) {
                         setLocation(nextLocation);
@@ -176,14 +176,10 @@ public abstract class Animal extends Entity
      * @return true if a mate is found.
      */
     protected boolean foundMate(Field field, List<Location> breedingLocations) {
-        Iterator<Location> iterator = breedingLocations.iterator();
-
-        while (iterator.hasNext()){
-            Location location = iterator.next();
+        for (Location location : breedingLocations) {
             Entity entity = field.getEntityAt(location);
 
             if (entity instanceof Animal other) {
-
                 if (other.isAlive() && this.getClass() == entity.getClass() && this.gender != other.getGender()) {
                     return true;
                 } 

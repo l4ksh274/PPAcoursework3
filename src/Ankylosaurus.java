@@ -1,5 +1,5 @@
 /**
- * A simple model of a ankylosaurus.
+ * A simple model of an ankylosaurus.
  * Ankylosaurus' age, move, eat berries and die.
  * 
  * @author David J. Barnes and Michael Kölling
