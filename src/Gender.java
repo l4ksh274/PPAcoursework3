@@ -9,7 +9,7 @@ public enum Gender {
     MALE, FEMALE;
 
     // Shared random instance to generate random values.
-    private static Random rand = Randomizer.getRandom();
+    private static final Random rand = Randomizer.getRandom();
 
     /**
      * Generates a random gender.

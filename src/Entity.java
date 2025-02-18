@@ -68,7 +68,7 @@ public abstract class Entity {
     }
 
     /**
-     * Indicate that the eneity is no longer alive.
+     * Indicate that the entity is no longer alive.
      */
     protected void setDead()
     {
