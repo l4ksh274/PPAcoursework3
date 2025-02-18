@@ -173,10 +173,7 @@ public abstract class Animal extends Entity
      * @return true if a mate is found.
      */
     protected boolean foundMate(Field field, List<Location> breedingLocations) {
-        Iterator<Location> iterator = breedingLocations.iterator();
-
-        while (iterator.hasNext()){
-            Location location = iterator.next();
+        for (Location location : breedingLocations){
             Entity entity = field.getEntityAt(location);
 
             if (entity instanceof Animal other) {
