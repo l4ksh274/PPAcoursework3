@@ -30,11 +30,21 @@ public abstract class Plant extends Entity {
         // If plant is alive, stays in the same location.
         if(isAlive()) {
             nextFieldState.placeEntity(this, this.getLocation());
+            // If the weather is rainy in the next step, the plants can grow.
+            if (nextFieldState.getCurrentWeather() == Weather.RAINY){
+                for (Location location1 : nextFieldState.getFreeAdjacentLocations(location)){
+                    if (rand.nextDouble() < getGrowthProbability()) {
+                        Plant young = createOffspring(location1);
+                        nextFieldState.placeEntity(young, location1);
+                    }
+                }
+            }
+
         }
         else {
             // Seeds have a probability of sprouting after parent plant has died
             if (nextFieldState.getEntityAt(seedSproutLocation) == null) {
-                if (rand.nextDouble() <= getSeedSproutProbability()) {
+                if (rand.nextDouble() < getSeedSproutProbability()) {
                     Plant young = createOffspring(seedSproutLocation);
                     nextFieldState.placeEntity(young, seedSproutLocation);
                 }
@@ -55,6 +65,11 @@ public abstract class Plant extends Entity {
      * @return The probability of a seed sprouting when a plant dies.
      */
     protected abstract double getSeedSproutProbability();
+
+    /**
+     * @return The probability of the plant creating offspring.
+     */
+    protected abstract double getGrowthProbability();
 
     /**
      * Creates a new instance of a plant at a given location.

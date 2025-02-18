@@ -4,6 +4,7 @@ public class Conifer extends Plant {
     private static final int RIPE_AGE = 50;
     // Conifer's chance of seeds sprouting when parent conifer dies
     private static final double SEED_SPROUT_PROBABILITY = 0.9;
+    private static final double GROWTH_PROBABILITY = 0.08;
 
     private static final int MAX_AGE = 700;
 
@@ -34,6 +35,11 @@ public class Conifer extends Plant {
     @Override
     protected double getSeedSproutProbability() {
         return SEED_SPROUT_PROBABILITY;
+    }
+
+    @Override
+    protected double getGrowthProbability() {
+        return GROWTH_PROBABILITY;
     }
 
     @Override

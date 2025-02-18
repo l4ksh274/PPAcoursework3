@@ -85,7 +85,10 @@ public abstract class Animal extends Entity
         if (!sleeping) {
             incrementHunger();
             if(isAlive()) {
-                if (rand.nextFloat() < moveProbability) {
+                boolean noFogAndCanMove = nextFieldState.getCurrentWeather() != Weather.FOG && rand.nextFloat() < moveProbability;
+                boolean fogAndCanMove = nextFieldState.getCurrentWeather() == Weather.FOG && rand.nextFloat() < moveProbability * nextFieldState.getVisibility();
+
+                if (noFogAndCanMove || fogAndCanMove) {
                     List<Location> adjacentLocations = nextFieldState.getAdjacentLocations(getLocation());
                     List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
 
@@ -223,7 +226,7 @@ public abstract class Animal extends Entity
             if(entity != null && isFood(entity)) {
                 if(entity.isAlive()) {
                     entity.setDead();
-                    foodLevel = getFoodValue();
+                    foodLevel += getFoodValue();
                     foodLocation = loc;
                 }
             }
@@ -242,7 +245,7 @@ public abstract class Animal extends Entity
     }
 
     /**
-     * @return Proability that this animal can breed successfully.
+     * @return Probability that this animal can breed successfully.
      */
     protected abstract double getBreedingProbability();
 

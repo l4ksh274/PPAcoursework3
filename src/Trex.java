@@ -9,7 +9,7 @@ public class Trex extends Predator
 {
     // Characteristics shared by all trexes (class variables).
     // The age at which a trex can start to breed.
-    private static final int BREEDING_AGE = 11;
+    private static final int BREEDING_AGE = 9;
     // The age to which a trex can live.
     private static final int MAX_AGE = 150;
     // The likelihood of a trex breeding.
