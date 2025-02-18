@@ -21,7 +21,7 @@ public enum Symptoms implements ISymptom {
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
             spreadDisease(animal, nextFieldState);
-            animal.increaseMortalityRate(0.02f);
+            animal.increaseMortalityRate(0.01f);
         }
     }, // Chance to spread a disease.
     VOMITING {
@@ -36,7 +36,7 @@ public enum Symptoms implements ISymptom {
 
             spreadDisease(animal, nextFieldState);
 
-            animal.increaseMortalityRate(0.1f);
+            animal.increaseMortalityRate(0.025f);
         }
     }, // Reduces activity and spreads disease.
     ACHES {
@@ -48,7 +48,7 @@ public enum Symptoms implements ISymptom {
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
             animal.modifyMoveProbability(0.5f);
-            animal.increaseMortalityRate(0.01f);
+            animal.increaseMortalityRate(0.005f);
         }
     }, // Drastically reduces activity.
     DEATH {
@@ -59,7 +59,7 @@ public enum Symptoms implements ISymptom {
          */
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
-            animal.increaseMortalityRate(0.1f);
+            animal.increaseMortalityRate(0.05f);
         }
     },
     ANTIBREEDING {
@@ -70,14 +70,14 @@ public enum Symptoms implements ISymptom {
          */
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
-            animal.changeBreedingProbability(0.6f);
+            animal.changeBreedingProbability(0.8f);
         }
     };
 
     protected static Random rand = Randomizer.getRandom();
 
     protected void spreadDisease(Animal animal, Field nextFieldState) {
-        List<Location> locationList = nextFieldState.getFreeAdjacentLocations(animal.getLocation());
+        List<Location> locationList = nextFieldState.getAdjacentLocations(animal.getLocation());
         // Searches all neighbouring cells for alive animals and spreads diseases that have the cough symptom.
         for (Location location : locationList) {
             Entity neighbouringEntity = nextFieldState.getEntityAt(location);

@@ -14,11 +14,11 @@ public class Ankylosaurus extends Prey
     // The age at which an ankylosaurus can start to breed.
     private static final int BREEDING_AGE = 3;
     // The age to which a ankylosaurus can live.
-    private static final int MAX_AGE = 40;
+    private static final int MAX_AGE = 25;
     // The likelihood of a ankylosaurus breeding.
     private static final double BREEDING_PROBABILITY = 0.7;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 6;
+    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single Berry. In effect, this is the
     // number of steps a trex can go before it has to eat again.
     private static final int BERRY_FOOD_VALUE = 12;

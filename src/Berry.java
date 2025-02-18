@@ -13,6 +13,8 @@ public class Berry extends Plant {
     private static final int RIPE_AGE = 20;
     // Berry's chance of seeds sprouting when parent berry dies.
     private static final double SEED_SPROUT_PROBABILITY = 0.9;
+    // The Berry's chance for growing more plants
+    private static final double GROWTH_PROBABILITY = 0.1;
     // The age to which a berry can live.
     private static final int MAX_AGE = 700;
 
@@ -49,6 +51,11 @@ public class Berry extends Plant {
     @Override
     protected double getSeedSproutProbability() {
         return SEED_SPROUT_PROBABILITY;
+    }
+
+    @Override
+    protected double getGrowthProbability() {
+        return GROWTH_PROBABILITY;
     }
 
     @Override

@@ -88,7 +88,10 @@ public abstract class Animal extends Entity
         if (!sleeping) {
             incrementHunger();
             if(isAlive()) {
-                if (rand.nextFloat() < moveProbability) {
+                boolean noFogAndCanMove = nextFieldState.getCurrentWeather() != Weather.FOG && rand.nextFloat() < moveProbability;
+                boolean fogAndCanMove = nextFieldState.getCurrentWeather() == Weather.FOG && rand.nextFloat() < moveProbability * nextFieldState.getVisibility();
+
+                if (noFogAndCanMove || fogAndCanMove) {
                     List<Location> adjacentLocations = nextFieldState.getAdjacentLocations(getLocation());
                     List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
 

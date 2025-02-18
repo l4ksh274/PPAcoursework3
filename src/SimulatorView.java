@@ -110,6 +110,12 @@ public class SimulatorView extends JFrame
         if(!isVisible()) {
             setVisible(true);
         }
+        switch(field.getCurrentWeather()){
+            case SUNNY -> getContentPane().setBackground(Color.yellow);
+            case RAINY -> getContentPane().setBackground(Color.CYAN);
+            case FOG -> getContentPane().setBackground(Color.gray);
+            default -> getContentPane().setBackground(Color.white);
+        }
             
         stepLabel.setText(STEP_PREFIX + step);
         stats.reset();
@@ -118,10 +124,13 @@ public class SimulatorView extends JFrame
 
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                Object animal = field.getEntityAt(new Location(row, col));
-                if(animal != null) {
-                    stats.incrementCount(animal.getClass());
-                    fieldView.drawMark(col, row, getColor(animal.getClass()));
+                Entity entity = field.getEntityAt(new Location(row, col));
+                if(entity != null) {
+                    stats.incrementCount(entity.getClass());
+                    if (entity instanceof Animal animal && !animal.getDiseases().isEmpty()){
+                        stats.incrementCount(Disease.class);
+                    }
+                    fieldView.drawMark(col, row, getColor(entity.getClass()));
                 }
                 else {
                     fieldView.drawMark(col, row, EMPTY_COLOR);

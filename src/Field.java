@@ -18,6 +18,10 @@ public class Field
     private final Map<Location, Entity> field = new HashMap<>();
     // The animals.
     private final List<Entity> entities = new ArrayList<>();
+    // The current weather.
+    private Weather currentWeather;
+    // A multiplier which will affect how often animals move.
+    private final double fogVisibility = 0.7;
 
     /**
      * Represent a field of the given dimensions.
@@ -28,13 +32,18 @@ public class Field
     {
         this.depth = depth;
         this.width = width;
+        currentWeather = Weather.SUNNY;
     }
 
     /**
      * Place an entity at the given location.
      * If there is already an entity at the location it will
      * be lost.
+<<<<<<< HEAD
      * @param anEntity The animal to be placed.
+=======
+     * @param aEntity The Entity to be placed.
+>>>>>>> 0085bef638a5c0d0bca3551f08ad4e018c3552e9
      * @param location Where to place the animal.
      */
     public void placeEntity(Entity anEntity, Location location)
@@ -73,6 +82,10 @@ public class Field
                 free.add(next);
             }
             else if(!aEntity.isAlive()) {
+                free.add(next);
+            }
+            // Lets animals walk on plants
+            else if (aEntity instanceof Plant){
                 free.add(next);
             }
         }
@@ -212,4 +225,33 @@ public class Field
     {
         return width;
     }
+
+    /**
+     * Return the weather of the field.
+     * @return The weather of the field.
+     */
+
+    public Weather getCurrentWeather() {
+        return currentWeather;
+    }
+
+    /**
+     * Sets the weather of the field.
+     * @param currentWeather  The new weather of the field.
+     */
+
+
+    public void setCurrentWeather(Weather currentWeather) {
+        this.currentWeather = currentWeather;
+    }
+
+    /**
+     * Return the visibility of the field during a fog.
+     * @return The visibility of the field during fog.
+     */
+
+    public double getVisibility() {
+        return fogVisibility;
+    }
+
 }

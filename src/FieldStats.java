@@ -111,7 +111,7 @@ public class FieldStats
                     incrementCount(entity.getClass());
                     if (entity instanceof Animal animal) {
                         for (Disease disease : animal.getDiseases()){
-                            incrementCount(disease.getClass());
+                            incrementCount(Disease.class);
                         }
                     }
                 }

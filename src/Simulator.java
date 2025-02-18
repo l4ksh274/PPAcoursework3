@@ -29,11 +29,13 @@ public class Simulator
     // The probability that a conifer will be created in a given position.
     private static final double CONIFER_CREATION_PROBABILITY = 0.03;
     // The probability that an animal spawns with Influenza
-    private static final double INFLUENZA_PROBABILITY = 0.015;
+    private static final double INFLUENZA_PROBABILITY = 0.05;
     // The probability that an animal spawns with Chlamydia
-    private static final double CHLAMYDIA_PROBABILITY = 0.01;
+    private static final double CHLAMYDIA_PROBABILITY = 0.03;
     // The probability that an animal spawns with Salmonella
-    private static final double SALMONELLA_PROBABILITY = 0.015;
+    private static final double SALMONELLA_PROBABILITY = 0.07;
+    // The probability of the weather changing in the next step
+    private static final double WEATHER_CHANGE_PROBABILITY = 0.1;
 
 
     // The current state of the field.
@@ -119,6 +121,14 @@ public class Simulator
         // the next step.
         Field nextFieldState = new Field(field.getDepth(), field.getWidth());
 
+        // Chance to change the weather (the same weather is also considered)
+
+        if (Randomizer.getRandom().nextFloat() < WEATHER_CHANGE_PROBABILITY){
+            nextFieldState.setCurrentWeather(Weather.getRandomWeather());
+        }else{
+            nextFieldState.setCurrentWeather(field.getCurrentWeather());
+        }
+        System.out.println(nextFieldState.getCurrentWeather());
         List<Entity> entities = field.getEntities();
         for (Entity anEntity : entities) {
             anEntity.act(field, nextFieldState, day, hour);
@@ -153,7 +163,7 @@ public class Simulator
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
                 Animal animal = null;
-                Plant plant = null;
+                Plant plant;
                 if(rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     animal = new Trex(true, location);
