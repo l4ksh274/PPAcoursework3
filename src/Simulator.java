@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field containing 
- * rabbits and foxes.
+ * different entities.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
@@ -19,7 +19,7 @@ public class Simulator
     // The probability that an Ankylosaurus will be created in any given position.
     private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3552;
     // The probability that an allosaurus will be created in any given grid position.
-    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.1721;
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.1821;
     // The probability that a dodo will be created in any given position.
     private static final double DODO_CREATION_PROBABILITY = 0.1495;
     // The probability that a raptor will be created in any given position.

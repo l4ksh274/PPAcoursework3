@@ -1,24 +1,32 @@
 /**
- * Implementation of the Allosaurus dinosaur with its unique characteristics
+ * A simple model of an allosaurus.
+ * Allosaurus' age, move, eat Ankylosaurus' and die
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
  */
 public class Allosaurus extends Predator
 {
     // Characteristics shared by all allosaurus'
     // The age at which an allosaurus can start to breed.
     private static final int BREEDING_AGE = 6;
-    // The age of which an allosaurus can live
+    // The age to which an allosaurus can live.
     private static final int MAX_AGE = 160;
     // The likelihood of an allosaurus breeding 
     private static final double BREEDING_PROBABILITY = 0.25;
     // The maximum number of births
     private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single ankylosaurus. In effect, this is the
-    // number of steps a trex can go before it has to eat again.
+    // number of steps an allosaurus can go before it has to eat again.
     private static final int ANKYLOSAURUS_FOOD_VALUE = 25;
     
+    /**
+     * Create an allosaurus. An allosaurus can be created as a new born (age zero
+     * and not hungry) or with a random age and food level.
+     *
+     * @param randomAge If true, the allosaurus will have random age and hunger level.
+     * @param location The location within the field.
+     */
     public Allosaurus(boolean randomAge, Location location) {
         super(location);
         if(randomAge) {

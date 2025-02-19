@@ -1,8 +1,8 @@
 /**
- * Write a description of class Raptor here.
+ * A simple model of a raptor
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
  */
 public class Raptor extends Predator
 {
@@ -18,6 +18,12 @@ public class Raptor extends Predator
     // The food value of a single dodo
     private static final int DODO_FOOD_VALUE = 40;
     
+    /**
+     * Create a raptor. A raptor can be created as a new born (age zero
+     * and not hungry) or with a random age and food level.
+     * @param randomAge If true, the raptor will have random age and hunger level.
+     * @param location The location within the field.
+     */
     public Raptor(boolean randomAge, Location location){
         super(location);
         if(randomAge) {

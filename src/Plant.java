@@ -1,6 +1,9 @@
 /**
- * Abstract class representing a plant in this simulation.
+ * Abstract class representing common elements of all plants in this simulation.
  * Plants may be eaten and seeds allows the plants to regrow in the same position.
+ * 
+ * @author Jiwei Cao and Laksh Patel
+ * @version 1.0
  */
 
 public abstract class Plant extends Entity {
@@ -18,7 +21,8 @@ public abstract class Plant extends Entity {
     }
 
     /*
-     * Defines the behaviour of a plant in each step of the stimulation.
+     * Defines the behaviour of a plant in each step of the stimulation:
+     * increment age, have a chance of reproducing in the same spot if dies.
      * @param currentField The current state of the field.
      * @param nextFieldState The field state for the next simulation step.
      * @param day The current day in the simulation.
