@@ -1,6 +1,6 @@
 public class Chlamydia extends Disease{
     private static final String name = "Chlamydia";
-    private static final int durationInSteps = 30;
+    private static final int durationInSteps = 100;
 
     public Chlamydia() {
         super(name, durationInSteps);

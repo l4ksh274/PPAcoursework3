@@ -8,15 +8,15 @@ public class Raptor extends Predator
 {
     // Characteristics shared by all raptors (class variables)
     // The age to which a raptor can start to breed
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 4;
     // The age to which a raptor can live
-    private static final int MAX_AGE = 50;
+    private static final int MAX_AGE = 120;
     // The likelihood of a raptor breeding
-    private static final double BREEDING_PROBABILITY = 0.21;
+    private static final double BREEDING_PROBABILITY = 0.44;
     // The maximum number of births
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single dodo
-    private static final int DODO_FOOD_VALUE = 21;
+    private static final int DODO_FOOD_VALUE = 40;
     
     public Raptor(boolean randomAge, Location location){
         super(location);

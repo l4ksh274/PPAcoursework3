@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Common elements of all animals in the simulation
@@ -11,7 +9,7 @@ import java.util.List;
 public abstract class Animal extends Entity
 {
     // The diseases the animal is infected with
-    private List<Disease> diseases;
+    private Set<Disease> diseases;
     // Probability of the affected entity dying.
     private float mortalityProbability;
     // Probability of the entity breeding.
@@ -46,7 +44,7 @@ public abstract class Animal extends Entity
         this.sleepHour = rand.nextInt(24);
         this.wakeHour = rand.nextInt(24);
         this.timeOffset = rand.nextInt(5);
-        diseases = new ArrayList<>();
+        diseases = new HashSet<>();
         moveProbability = 1f;
         mortalityProbability = 0;
         breedingProbabilityMultiplier = 1f;
@@ -349,14 +347,12 @@ public abstract class Animal extends Entity
         this.moveProbability *= moveProbability;
     }
 
-    public List<Disease> getDiseases() {
+    public Set<Disease> getDiseases() {
         return diseases;
     }
 
     public void infect(Disease disease) {
-        if (!diseases.contains(disease)){
-            diseases.add(disease);
-        }
+        diseases.add(disease);
     }
 
     public float getMortalityProbability() {

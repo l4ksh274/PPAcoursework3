@@ -1,6 +1,6 @@
 public class Salmonella extends Disease{
     private static final String name = "Salmonella";
-    private static final int durationInSteps = 25;
+    private static final int durationInSteps = 80;
 
     public Salmonella(){
         super(name, durationInSteps);

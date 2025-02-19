@@ -13,12 +13,12 @@ public class Trex extends Predator
     // The age to which a trex can live.
     private static final int MAX_AGE = 150;
     // The likelihood of a trex breeding.
-    private static final double BREEDING_PROBABILITY = 0.25;
+    private static final double BREEDING_PROBABILITY = 0.56;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single ankylosaurus. In effect, this is the
     // number of steps a trex can go before it has to eat again.
-    private static final int ANKYLOSAURUS_FOOD_VALUE = 20;
+    private static final int ANKYLOSAURUS_FOOD_VALUE = 25;
     
     // Individual characteristics (instance fields).
     

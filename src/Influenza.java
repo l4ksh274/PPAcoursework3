@@ -1,5 +1,5 @@
 public class Influenza extends Disease{
-    private static final int DURATION_IN_STEPS = 20;
+    private static final int DURATION_IN_STEPS = 70;
     private static final String name = "Influenza";
 
     public Influenza() {

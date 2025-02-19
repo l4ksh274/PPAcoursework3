@@ -12,9 +12,9 @@ public class Allosaurus extends Predator
     // The age of which an allosaurus can live
     private static final int MAX_AGE = 160;
     // The likelihood of an allosaurus breeding 
-    private static final double BREEDING_PROBABILITY = 0.22;
+    private static final double BREEDING_PROBABILITY = 0.25;
     // The maximum number of births
-    private static final int MAX_LITTER_SIZE = 2;
+    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single ankylosaurus. In effect, this is the
     // number of steps a trex can go before it has to eat again.
     private static final int ANKYLOSAURUS_FOOD_VALUE = 25;

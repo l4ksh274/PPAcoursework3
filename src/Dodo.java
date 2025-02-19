@@ -8,16 +8,16 @@ public class Dodo extends Prey
 {
     // Characteristics shared by all triceratops' 
     // The age at which a triceratops can starto to breed
-    private static final int BREEDING_AGE = 4;
+    private static final int BREEDING_AGE = 3;
     // The age to which a ankylosaurus can live
-    private static final int MAX_AGE = 40;
+    private static final int MAX_AGE = 80;
     // The likelihood of a dodo breeding
-    private static final double BREEDING_PROBABILITY = 0.8;
+    private static final double BREEDING_PROBABILITY = 0.9;
     // The maximum number of births
-    private static final int MAX_LITTER_SIZE = 5;
+    private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single Conifer. In effect, this is the
     // number of steps a dodo can go before it has to eat again.
-    private static final int CONIFER_FOOD_VALUE = 11;
+    private static final int CONIFER_FOOD_VALUE = 30;
     
     /**
      * 

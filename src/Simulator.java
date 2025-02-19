@@ -15,27 +15,27 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a Trex will be created in any given grid position.
-    private static final double TREX_CREATION_PROBABILITY = 0.08;
+    private static final double TREX_CREATION_PROBABILITY = 0.1262;
     // The probability that an Ankylosaurus will be created in any given position.
-    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3;
+    private static final double ANKYLOSAURUS_CREATION_PROBABILITY = 0.3552;
     // The probability that an allosaurus will be created in any given grid position.
-    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.07;
+    private static final double ALLOSAURUS_CREATION_PROBABILITY = 0.1721;
     // The probability that a dodo will be created in any given position.
-    private static final double DODO_CREATION_PROBABILITY = 0.2;
+    private static final double DODO_CREATION_PROBABILITY = 0.1495;
     // The probability that a raptor will be created in any given position.
-    private static final double RAPTOR_CREATION_PROBABILITY = 0.08;
+    private static final double RAPTOR_CREATION_PROBABILITY = 0.1556;
     // The probability that a berry will be created in a given position.
-    private static final double BERRY_CREATION_PROBABILITY = 0.05;
+    private static final double BERRY_CREATION_PROBABILITY = 0.08;
     // The probability that a conifer will be created in a given position.
-    private static final double CONIFER_CREATION_PROBABILITY = 0.03;
+    private static final double CONIFER_CREATION_PROBABILITY = 0.0847;
     // The probability that an animal spawns with Influenza
-    private static final double INFLUENZA_PROBABILITY = 0.05;
+    private static final double INFLUENZA_PROBABILITY = 0.1;
     // The probability that an animal spawns with Chlamydia
-    private static final double CHLAMYDIA_PROBABILITY = 0.03;
+    private static final double CHLAMYDIA_PROBABILITY = 0.14;
     // The probability that an animal spawns with Salmonella
-    private static final double SALMONELLA_PROBABILITY = 0.07;
+    private static final double SALMONELLA_PROBABILITY = 0.14;
     // The probability of the weather changing in the next step
-    private static final double WEATHER_CHANGE_PROBABILITY = 0.1;
+    private static final double WEATHER_CHANGE_PROBABILITY = 0.25;
 
 
     // The current state of the field.

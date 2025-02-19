@@ -10,7 +10,7 @@ public enum Symptoms implements ISymptom {
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
             animal.modifyMoveProbability(0.75f);
-            animal.increaseMortalityRate(0.05f);
+            animal.increaseMortalityRate(0.0015f);
         }
     },
     COUGH {
@@ -21,7 +21,7 @@ public enum Symptoms implements ISymptom {
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
             spreadDisease(animal, nextFieldState);
-            animal.increaseMortalityRate(0.01f);
+            animal.increaseMortalityRate(0.001f);
         }
     }, // Chance to spread a disease.
     VOMITING {
@@ -36,7 +36,7 @@ public enum Symptoms implements ISymptom {
 
             spreadDisease(animal, nextFieldState);
 
-            animal.increaseMortalityRate(0.025f);
+            animal.increaseMortalityRate(0.0015f);
         }
     }, // Reduces activity and spreads disease.
     ACHES {
@@ -48,7 +48,7 @@ public enum Symptoms implements ISymptom {
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
             animal.modifyMoveProbability(0.5f);
-            animal.increaseMortalityRate(0.005f);
+            animal.increaseMortalityRate(0.0005f);
         }
     }, // Drastically reduces activity.
     DEATH {
@@ -59,7 +59,7 @@ public enum Symptoms implements ISymptom {
          */
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
-            animal.increaseMortalityRate(0.05f);
+            animal.increaseMortalityRate(0.003f);
         }
     },
     ANTIBREEDING {
@@ -70,6 +70,7 @@ public enum Symptoms implements ISymptom {
          */
         @Override
         public void applyAffect(Animal animal, Field nextFieldState) {
+            spreadDisease(animal, nextFieldState);
             animal.changeBreedingProbability(0.8f);
         }
     };

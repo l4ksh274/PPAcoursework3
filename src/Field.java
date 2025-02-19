@@ -80,10 +80,6 @@ public class Field
             else if(!aEntity.isAlive()) {
                 free.add(next);
             }
-            // Lets animals walk on plants
-            else if (aEntity instanceof Plant){
-                free.add(next);
-            }
         }
         return free;
     }
