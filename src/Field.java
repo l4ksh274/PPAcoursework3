@@ -6,6 +6,9 @@ import java.util.*;
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
+ *
+ * @author Laksh Patel and Jiwei Cao
+ * @version 1.0
  */
 public class Field
 {
@@ -36,22 +39,18 @@ public class Field
     }
 
     /**
-     * Place an entity at the given location.
-     * If there is already an entity at the location it will
-     * be lost.
-<<<<<<< HEAD
-     * @param anEntity The animal to be placed.
-=======
-     * @param aEntity The Entity to be placed.
->>>>>>> 0085bef638a5c0d0bca3551f08ad4e018c3552e9
-     * @param location Where to place the animal.
+     * Place an entity at a specific location in the field.
+     * If another entity exists at the specified location, it is removed first.
+     *
+     * @param anEntity The entity to be placed in the field.
+     * @param location The location where the entity will be placed. Must not be null.
      */
     public void placeEntity(Entity anEntity, Location location)
     {
         assert location != null;
-        Object other = field.get(location);
-        if(other != null) {
-            entities.remove(other);
+        Entity entity = field.get(location);
+        if(entity != null) {
+            entities.remove(entity);
         }
         field.put(location, anEntity);
         entities.add(anEntity);
@@ -150,24 +149,23 @@ public class Field
     }
 
     /**
-     * Return whether there is at least one pair of predator-preys on the field.
-     * @return true if there is at least one pair of predator-preys on the field.
+     * Checks if the field is viable for simulation by ensuring the presence of specific
+     * predator-prey and prey-plant pairs. At least one of the defined pairs must exist
+     * for the field to be considered viable.
+     *
+     * Predator -> Prey pairs:
+     * - Trex -> Ankylosaurus
+     * - Allosaurus -> Ankylosaurus
+     * - Raptor -> Dodo
+     *
+     * Prey -> Plant pairs:
+     * - Ankylosaurus -> Berry
+     * - Dodo -> Conifer
+     *
+     * @return true if at least one of the defined predator-prey or prey-plant pairs
+     *         exists in the field, false otherwise.
      */
-    public boolean isViable()
-    {
-        /*
-        Predator -> Prey pairs
-
-        Trex -> Ankylosaurus
-        Allosaurus -> Ankylosaurus
-        Raptor -> Dodo
-
-        Prey -> Plant pairs
-
-        Ankylosaurus -> Berry
-        Dodo -> Conifer
-         */
-
+    public boolean isViable() {
         // Keeps track of the animals classes that are still on the field. A value of 1 indicates it exists.
         HashSet<Class<? extends Entity>> classExists = new HashSet<>();
 

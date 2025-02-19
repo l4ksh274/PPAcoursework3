@@ -35,41 +35,83 @@ public class Raptor extends Predator
         foodLevel = rand.nextInt(DODO_FOOD_VALUE);
     }
     
+    /**
+     * Gets the maximum age that the raptor can reach.
+     *
+     * @return the maximum age of the raptor as an integer.
+     */
     @Override
     protected int getMaxAge(){
         return MAX_AGE;
     }
 
+    /**
+     * Gets the current age of the raptor.
+     *
+     * @return the age of the raptor as an integer.
+     */
     @Override
     protected int getAge() {
         return age;
     }
     
+    /**
+     * Gets the food value of a specific prey item, in this case, a dodo.
+     *
+     * @return the food value of a dodo as an integer.
+     */
     @Override
     protected int getFoodValue(){
         return DODO_FOOD_VALUE;
     }
     
+    /**
+     * Gets the breeding probability for the raptor.
+     *
+     * @return the likelihood of the raptor breeding as a double.
+     */
     @Override 
     protected double getBreedingProbability(){
         return BREEDING_PROBABILITY;
     }
     
+    /**
+     * Gets the maximum number of offspring a Raptor can have in one litter.
+     *
+     * @return the maximum litter size as an integer.
+     */
     @Override
     protected int getMaxLitterSize(){
         return MAX_LITTER_SIZE;
     }
     
+    /**
+     * Gets the breeding age of the raptor.
+     *
+     * @return the minimum age at which the raptor can start breeding.
+     */
     @Override
     protected int getBreedingAge(){
         return BREEDING_AGE;
     }
     
+    /**
+     * Creates an offspring of the current raptor at the specified location.
+     *
+     * @param loc The location where the offspring will be created.
+     * @return A new instance of a Raptor at the specified location.
+     */
     @Override
     protected Animal createOffspring(Location loc) {
         return new Raptor(false, loc);
     }
     
+    /**
+     * Determines if the given entity is considered food for the current entity.
+     *
+     * @param entity The entity to check.
+     * @return True if the entity is an instance of Dodo, false otherwise.
+     */
     @Override
     protected boolean isFood(Entity entity) {
         return entity instanceof Dodo;

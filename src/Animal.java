@@ -70,12 +70,14 @@ public abstract class Animal extends Entity
     }
 
     /**
-     * Perform this animal's actions for one step:
-     * check Mortality, update sleeping, increment age / hunger, possibly breed, move or die of overcrowding
-     * @param currentField The current state of the field.
-     * @param nextFieldState The new state being built.
-     * @param day The day of the new state.
-     * @param hour The hour of the day of the new state.
+     * Allows the animal to perform its actions such as moving, breeding, and hunting for food
+     * based on the current conditions of the field and its state. Also handles sleeping, 
+     * aging, hunger, and potential mortality.
+     *
+     * @param currentField The current state of the field where the animal exists.
+     * @param nextFieldState The next state of the field being constructed after this turn.
+     * @param day The current day in the simulation.
+     * @param hour The current hour in the simulation.
      */
     public void act(Field currentField, Field nextFieldState, int day, int hour)
     {
@@ -281,33 +283,6 @@ public abstract class Animal extends Entity
     }
 
     /**
-     * Gets the base sleep hour of the animal.
-     * @return  the base sleep hour
-     */
-
-    public int getSleepHour() {
-        return sleepHour;
-    }
-
-    /**
-     * Gets the base wake up hour of the animal.
-     * @return  the base wake up hour
-     */
-
-    public int getWakeHour() {
-        return wakeHour;
-    }
-
-    /**
-     * Checks whether the animal is sleeping or not.
-     * @return  Whether the animal is sleeping.
-     */
-
-    public boolean isSleeping() {
-        return sleeping;
-    }
-
-    /**
      * If the hour is on the sleeping or waking boundary, the animal with wake or sleep 100% of the time.
      * Otherwise, if the hour is within an allowed range to trigger an event,
      * there is a possibility that the event is triggered, specified by the SLEEP_CHANGE_PROBABILITY.
@@ -347,22 +322,41 @@ public abstract class Animal extends Entity
         this.moveProbability *= moveProbability;
     }
 
+    /**
+     * Gets the set of all diseases currently affecting the animal.
+     *
+     * @return A set of diseases that the animal is currently infected with.
+     */
     public Set<Disease> getDiseases() {
         return diseases;
     }
 
+    /**
+     * Infects the animal with a specified disease by adding it to the set of diseases.
+     *
+     * @param disease The disease to infect the animal with.
+     */
     public void infect(Disease disease) {
         diseases.add(disease);
     }
 
-    public float getMortalityProbability() {
-        return mortalityProbability;
-    }
-
+    /**
+     * Increases the mortality probability of the animal by the specified value.
+     *
+     * @param mortalityRateIncrease The amount to increase the mortality probability.
+     */
     public void increaseMortalityRate(float mortalityRateIncrease) {
         this.mortalityProbability += mortalityRateIncrease;
     }
 
+    /**
+     * Checks the mortality of the animal based on its mortality probability and the effects 
+     * of any diseases it may have. If the animal should die, it is marked as dead. 
+     * Additionally, updates the state of any diseases the animal is afflicted with and 
+     * applies their effects. Increments the animal's age if it survives.
+     *
+     * @param nextFieldState The next state of the field being constructed.
+     */
     protected void checkMortality(Field nextFieldState){
         if (rand.nextFloat() < mortalityProbability){
             setDead();
@@ -383,13 +377,33 @@ public abstract class Animal extends Entity
         incrementAge();
     }
 
+    /**
+     * Adjusts the breeding probability multiplier of the animal by a specific factor.
+     * The multiplier is updated by multiplying it with the provided change factor.
+     *
+     * @param changeProbability A decimal value by which the breeding probability multiplier is adjusted. 
+     *                          Values greater than 1 increase the probability, while values less than 1 decrease it.
+     */
     public void changeBreedingProbability(float changeProbability) {
         breedingProbabilityMultiplier *= changeProbability;
     }
 
+    /**
+     * Gets the breeding probability multiplier of the animal.
+     * This multiplier influences the likelihood of successful reproduction.
+     *
+     * @return The breeding probability multiplier as a float value.
+     */
     public float getBreedingProbabilityMultiplier() {
         return breedingProbabilityMultiplier;
     }
 
+    /**
+     * Returns the probability that the animal's sleep state will change 
+     * based on its sleep and wake parameters.
+     *
+     * @return A probability value (as a double) representing the likelihood of 
+     *         the animal transitioning between sleeping and waking states.
+     */
     public abstract double getSleepChangeProbability();
 }

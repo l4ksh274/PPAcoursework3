@@ -33,30 +33,65 @@ public class Berry extends Plant {
         }
     }
 
+    /**
+     * Gets the age at which a berry is considered ripe.
+     *
+     * @return The age at which the berry reaches ripeness.
+     */
     protected int getRipeAge() {
         return RIPE_AGE;
     }
 
+    /**
+     * Gets the current age of the berry.
+     *
+     * @return The age of the berry as an integer.
+     */
     @Override
     protected int getAge() {
         return age;
     }
 
+    /**
+     * Gets the maximum age of the berry.
+     * The maximum age determines the lifespan of the berry.
+     *
+     * @return The maximum age the berry can reach before it stops being alive.
+     */
     @Override 
     protected int getMaxAge() {
         return MAX_AGE;
     }
 
+    /**
+     * Gets the probability that a seed will sprout after the parent plant dies.
+     *
+     * @return The probability of a seed sprouting as a double value within the range [0, 1].
+     */
     @Override
     protected double getSeedSproutProbability() {
         return SEED_SPROUT_PROBABILITY;
     }
 
+    /**
+     * Gets the probability of the plant creating offspring.
+     * This is used to determine the likelihood of a plant 
+     * spreading its growth to adjacent locations under suitable conditions.
+     *
+     * @return The probability of the plant creating offspring.
+     */
     @Override
     protected double getGrowthProbability() {
         return GROWTH_PROBABILITY;
     }
 
+    /**
+     * Creates a new instance of a Berry at the specified location.
+     * This method is used to generate offspring for the plant.
+     *
+     * @param seedSproutLocation The location where the new Berry instance should grow.
+     * @return A new instance of Berry at the given location.
+     */
     @Override
     protected Plant createOffspring(Location seedSproutLocation) {
         return new Berry(false, seedSproutLocation);

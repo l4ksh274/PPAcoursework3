@@ -8,12 +8,16 @@
  */
 public abstract class Prey extends Animal {
 
+    /*
+     The probability that the Prey  changes sleeping parameters
+     to something else within the valid range.
+     */
     private static final double SLEEP_CHANGE_PROBABILITY = 0.9;
 
     /**
-     * Constructor for prey class.
-     * Initialises the prey at a specific location.
-     * @param location The initial location of the prey.
+     * Constructs a Predator at the given location.
+     *
+     * @param location The location of the predator within the simulation grid.
      */
     public Prey(Location location) {
         super(location, 20, 4, 1);

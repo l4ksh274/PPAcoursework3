@@ -20,11 +20,14 @@ public abstract class Plant extends Entity {
         this.seedSproutLocation = location;
     }
 
-    /*
-     * Defines the behaviour of a plant in each step of the stimulation:
-     * increment age, have a chance of reproducing in the same spot if dies.
-     * @param currentField The current state of the field.
-     * @param nextFieldState The field state for the next simulation step.
+    /**
+     * Performs the actions of the plant for the current step in the simulation.
+     * This includes determining growth, seed sprouting, and survival based on
+     * current and future field states, weather conditions, and the plant's
+     * characteristics such as growth probability and seed sprouting probability.
+     *
+     * @param currentField The current state of the simulation field.
+     * @param nextFieldState The simulation field state for the next step.
      * @param day The current day in the simulation.
      * @param hour The current hour in the simulation.
      */

@@ -4,6 +4,9 @@ import java.util.Random;
  * An enum class representing the genders of an animal.
  * The gender of an animal can be either MALE or FEMALE.
  * Gender of animal can be randomly assigned.
+ *
+ * @author Laksh Patel and Jiwei Cao
+ * @version 1.0
  */
 public enum Gender {
     MALE, FEMALE;

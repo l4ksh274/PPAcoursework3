@@ -8,6 +8,9 @@ import java.util.Map;
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
+ *
+ * @author Laksh Patel and Jiwei Cao
+ * @version 1.0
  */
 public class FieldStats
 {
@@ -61,8 +64,11 @@ public class FieldStats
     }
 
     /**
-     * Increment the count for one class of entity.
-     * @param animalClass The class of entity to increment.
+     * Increments the count for the specified entity class. If a counter for the given
+     * entity class does not exist, it creates a new counter for the class and adds it
+     * to the collection of counters. Otherwise, increments the existing counter.
+     *
+     * @param entityClass The class of the entity whose count needs to be incremented.
      */
     public void incrementCount(Class<?> entityClass)
     {
@@ -109,6 +115,7 @@ public class FieldStats
                 Entity entity = field.getEntityAt(new Location(row, col));
                 if(entity != null) {
                     incrementCount(entity.getClass());
+                    // Counts the diseases on the field
                     if (entity instanceof Animal animal) {
                         for (Disease disease : animal.getDiseases()){
                             incrementCount(Disease.class);

@@ -44,41 +44,86 @@ public class Ankylosaurus extends Prey
         foodLevel = rand.nextInt(BERRY_FOOD_VALUE);
     }
     
+    /**
+     * Gets the maximum age a specific ankylosaurus can reach.
+     *
+     * @return The maximum age of the ankylosaurus.
+     */
     @Override
     protected int getMaxAge(){
         return MAX_AGE;
     }
 
+    /**
+     * Returns the current age of the ankylosaurus.
+     *
+     * @return The age of the ankylosaurus.
+     */
     @Override
     protected int getAge() {
         return age;
     }
 
+    /**
+     * Gets the food value provided by a single berry when consumed by the ankylosaurus.
+     * This determines how many steps the ankylosaurus can go without eating again after consuming a berry.
+     *
+     * @return The food value of a single berry.
+     */
     @Override
     protected int getFoodValue() {
         return BERRY_FOOD_VALUE;
     }
     
+    /**
+     * Returns the breeding probability of the ankylosaurus. Breeding probability
+     * determines the likelihood of the ankylosaurus producing offspring during the simulation.
+     *
+     * @return The breeding probability as a double value.
+     */
     @Override 
     protected double getBreedingProbability(){
         return BREEDING_PROBABILITY;
     }
     
+    /**
+     * Get the maximum number of births (litter size) for an Ankylosaurus.
+     *
+     * @return The maximum number of offspring this Ankylosaurus can produce in one breeding session.
+     */
     @Override
     protected int getMaxLitterSize(){
         return MAX_LITTER_SIZE;
     }
     
+    /**
+     * Get the breeding age for this ankylosaurus.
+     * The breeding age determines the age at which the animal can start breeding.
+     *
+     * @return The breeding age of the ankylosaurus.
+     */
     @Override
     protected int getBreedingAge(){
         return BREEDING_AGE;
     }
     
+    /**
+     * Create and return an offspring of the Ankylosaurus at a specified location.
+     *
+     * @param loc The location where the offspring will be created.
+     * @return A new Ankylosaurus instance located at the specified location.
+     */
     @Override
     protected Animal createOffspring(Location loc) {
         return new Ankylosaurus(false, loc);
     }
 
+    /**
+     * Determines whether the given entity is food for this animal.
+     *
+     * @param entity The entity to be checked.
+     * @return True if the entity is a ripe berry, otherwise false.
+     */
     @Override
     protected boolean isFood(Entity entity) {
         return (entity instanceof Berry berry) && berry.getAge() >= berry.getRipeAge();

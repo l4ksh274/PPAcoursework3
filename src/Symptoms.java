@@ -1,6 +1,13 @@
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Stores the different symptoms a disease can have as well as implementations for how they affect the field and animals.
+ *
+ * @author Laksh Patel and Jiwei Cao
+ * @version 1.0
+ */
+
 public enum Symptoms implements ISymptom {
     FEVER {
         /**
@@ -77,6 +84,15 @@ public enum Symptoms implements ISymptom {
 
     protected static Random rand = Randomizer.getRandom();
 
+    /**
+     * Spreads diseases from the specified animal to nearby animals within the field.
+     * This method checks the adjacent locations of the animal, identifies neighboring
+     * animals, and infects them with diseases that have the cough symptom.
+     *
+     * @param animal The animal that may spread its diseases to neighboring animals. Must not be null.
+     * @param nextFieldState The field object that represents the current and adjacent states of entities.
+     *                       Provides access to neighboring locations and entities.
+     */
     protected void spreadDisease(Animal animal, Field nextFieldState) {
         List<Location> locationList = nextFieldState.getAdjacentLocations(animal.getLocation());
         // Searches all neighbouring cells for alive animals and spreads diseases that have the cough symptom.

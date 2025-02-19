@@ -42,41 +42,85 @@ public class Trex extends Predator
         foodLevel = rand.nextInt(ANKYLOSAURUS_FOOD_VALUE);
     }
     
+    /**
+     * Gets the maximum possible age a Trex can reach.
+     *
+     * @return the maximum age as an integer.
+     */
     @Override
     protected int getMaxAge(){
         return MAX_AGE;
     }
 
+    /**
+     * Gets the age of the current instance.
+     *
+     * @return the age of the instance as an integer.
+     */
     @Override
     protected int getAge() {
         return age;
     }
     
+    /**
+     * Gets the food value of an Ankylosaurus, which determines the number of steps
+     * a Trex can survive without eating after consuming an Ankylosaurus.
+     *
+     * @return the food value of an Ankylosaurus as an integer.
+     */
     @Override
     protected int getFoodValue(){
         return ANKYLOSAURUS_FOOD_VALUE;
     }
     
+    /**
+     * Gets the probability that the trex will breed.
+     *
+     * @return the breeding probability as a double.
+     */
     @Override 
     protected double getBreedingProbability(){
         return BREEDING_PROBABILITY;
     }   
     
+    /**
+     * Gets the maximum litter size for the predator.
+     *
+     * @return the maximum number of offspring a predator can produce in a single breeding event.
+     */
     @Override
     protected int getMaxLitterSize(){
         return MAX_LITTER_SIZE;
     }
     
+    /**
+     * Returns the breeding age of the Trex. This is the age at which
+     * a Trex can start to breed.
+     *
+     * @return the minimum age required for the Trex to breed.
+     */
     @Override
     protected int getBreedingAge(){
         return BREEDING_AGE;
     }
     
+    /**
+     * Creates an offspring Trex at the specified location.
+     *
+     * @param loc The location where the offspring Trex will be created.
+     * @return A new Trex instance initialized as an offspring.
+     */
     @Override
     protected Animal createOffspring(Location loc) {
         return new Trex(false, loc);
     }
     
+    /**
+     * Determines whether a given entity is considered food for the predator.
+     *
+     * @param entity The entity to check.
+     * @return true if the specified entity is an Ankylosaurus, false otherwise.
+     */
     @Override
     protected boolean isFood(Entity entity) {
         return entity instanceof Ankylosaurus;
